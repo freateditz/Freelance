@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 // Import components
 import { Button } from "./components/ui/button";
