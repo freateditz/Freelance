@@ -332,6 +332,8 @@ const LoginPage = () => {
       email: formData.email
     };
     login(userData, isFreelancer ? "freelancer" : "client");
+    // Redirect to dashboard after login
+    window.location.href = '/dashboard';
   };
 
   return (
