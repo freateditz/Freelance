@@ -1408,114 +1408,221 @@ const FreelancerProfilePage = () => {
   );
 };
 
-// Simple Dashboard Components for now
+// Enhanced Client Dashboard with Glassmorphism
 const ClientDashboard = () => {
   const { user } = useAuth();
+  const [activeProjects] = useState([
+    { id: 1, title: "E-commerce Website Development", freelancer: "Sarah Johnson", progress: 85, status: "In Progress", budget: 2500, deadline: "2025-02-15" },
+    { id: 2, title: "Mobile App UI/UX Design", freelancer: "Michael Chen", progress: 100, status: "Completed", budget: 1800, deadline: "2025-01-28" },
+    { id: 3, title: "Brand Identity Package", freelancer: "Emily Rodriguez", progress: 60, status: "In Progress", budget: 1200, deadline: "2025-02-20" },
+    { id: 4, title: "Digital Marketing Campaign", freelancer: "David Kim", progress: 40, status: "In Progress", budget: 3000, deadline: "2025-02-28" }
+  ]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Navigation />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23e0e7ff" fill-opacity="0.3"%3E%3Ccircle cx="7" cy="7" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back, {user?.name}!</h1>
-          <p className="text-slate-600">Manage your projects and find new talent</p>
+      {/* Enhanced Navigation with Glassmorphism */}
+      <nav className="bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-lg shadow-blue-500/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-8">
+              <Link to="/">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">FreelanceHub</h1>
+              </Link>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
+                <User className="h-4 w-4 text-blue-600" />
+                <span className="text-slate-700 font-medium">{user?.name}</span>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Briefcase className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Active Projects</h3>
-              <p className="text-3xl font-bold text-slate-900">5</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <DollarSign className="h-6 w-6 text-green-600" />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Total Spent</h3>
-              <p className="text-3xl font-bold text-slate-900">$12.5K</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Users className="h-6 w-6 text-purple-600" />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Freelancers Hired</h3>
-              <p className="text-3xl font-bold text-slate-900">23</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Award className="h-6 w-6 text-orange-600" />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Success Rate</h3>
-              <p className="text-3xl font-bold text-slate-900">98%</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Projects</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center p-4 bg-slate-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Website Redesign</h4>
-                    <p className="text-sm text-slate-600">by Sarah Johnson</p>
-                  </div>
-                  <Badge className="bg-green-100 text-green-800">Completed</Badge>
-                </div>
-                <div className="flex justify-between items-center p-4 bg-slate-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Logo Design</h4>
-                    <p className="text-sm text-slate-600">by Michael Chen</p>
-                  </div>
-                  <Badge variant="secondary">In Progress</Badge>
+      </nav>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Hero Section */}
+        <div className="mb-12 text-center">
+          <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-blue-500/20 border border-white/30">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+              Welcome back, {user?.name}! 👋
+            </h1>
+            <p className="text-slate-600 text-lg">Manage your projects and discover amazing talent</p>
+            <div className="mt-6 flex justify-center">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-1">
+                <div className="bg-white rounded-full px-6 py-2">
+                  <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Client Dashboard
+                  </span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
+        </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Link to="/post-job">
-                  <Button className="w-full justify-start bg-emerald-600 hover:bg-emerald-700">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Post a New Job
-                  </Button>
-                </Link>
-                <Link to="/browse">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Search className="h-4 w-4 mr-2" />
-                    Browse Freelancers
-                  </Button>
-                </Link>
-                <Link to="/messages">
-                  <Button variant="outline" className="w-full justify-start">
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    View Messages
-                  </Button>
-                </Link>
+        {/* Stats Cards with Glassmorphism */}
+        <div className="grid md:grid-cols-4 gap-6 mb-12">
+          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-blue-500/10 border border-white/30 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <Briefcase className="h-8 w-8 text-white" />
               </div>
-            </CardContent>
-          </Card>
+              <h3 className="font-semibold text-slate-700 mb-2">Active Projects</h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">5</p>
+              <p className="text-sm text-slate-500 mt-1">+2 this month</p>
+            </div>
+          </div>
+
+          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-green-500/10 border border-white/30 hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 group">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <DollarSign className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-slate-700 mb-2">Total Investment</h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">$12.5K</p>
+              <p className="text-sm text-slate-500 mt-1">Return: 250%</p>
+            </div>
+          </div>
+
+          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-purple-500/10 border border-white/30 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 group">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <Users className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-slate-700 mb-2">Freelancers Hired</h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">23</p>
+              <p className="text-sm text-slate-500 mt-1">Across 12 countries</p>
+            </div>
+          </div>
+
+          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-amber-500/10 border border-white/30 hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300 group">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <Award className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-slate-700 mb-2">Success Rate</h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">98%</p>
+              <p className="text-sm text-slate-500 mt-1">Industry leading</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Active Projects */}
+          <div className="lg:col-span-2">
+            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-blue-500/10 border border-white/30 overflow-hidden">
+              <div className="p-6 border-b border-white/20">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold text-slate-800">Active Projects</h2>
+                  <Badge className="bg-blue-100/80 text-blue-800 backdrop-blur-sm">4 In Progress</Badge>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  {activeProjects.map((project) => (
+                    <div key={project.id} className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/40 transition-all duration-300">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-800 mb-1">{project.title}</h4>
+                          <p className="text-sm text-slate-600">by {project.freelancer}</p>
+                        </div>
+                        <div className="text-right">
+                          <Badge className={`${project.status === 'Completed' ? 'bg-green-100/80 text-green-800' : 'bg-yellow-100/80 text-yellow-800'} backdrop-blur-sm`}>
+                            {project.status}
+                          </Badge>
+                          <p className="text-sm text-slate-600 mt-1">${project.budget}</p>
+                        </div>
+                      </div>
+                      <div className="mb-2">
+                        <div className="flex justify-between text-sm text-slate-600 mb-1">
+                          <span>Progress</span>
+                          <span>{project.progress}%</span>
+                        </div>
+                        <div className="w-full bg-white/30 rounded-full h-2">
+                          <div 
+                            className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${project.progress}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center text-xs text-slate-500">
+                        <span>Due: {project.deadline}</span>
+                        <div className="flex space-x-2">
+                          <MessageSquare className="h-3 w-3" />
+                          <Eye className="h-3 w-3" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions & Recent Activity */}
+          <div className="space-y-6">
+            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-purple-500/10 border border-white/30">
+              <div className="p-6 border-b border-white/20">
+                <h2 className="text-xl font-bold text-slate-800">Quick Actions</h2>
+              </div>
+              <div className="p-6">
+                <div className="space-y-3">
+                  <Link to="/post-job">
+                    <Button className="w-full justify-start bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Post New Project
+                    </Button>
+                  </Link>
+                  <Link to="/browse">
+                    <Button className="w-full justify-start bg-white/30 backdrop-blur-sm hover:bg-white/40 text-slate-700 border border-white/30">
+                      <Search className="h-4 w-4 mr-2" />
+                      Find Freelancers
+                    </Button>
+                  </Link>
+                  <Link to="/messages">
+                    <Button className="w-full justify-start bg-white/30 backdrop-blur-sm hover:bg-white/40 text-slate-700 border border-white/30">
+                      <MessageSquare className="h-4 w-4 mr-2" />
+                      Messages (3)
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Activity */}
+            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-green-500/10 border border-white/30">
+              <div className="p-6 border-b border-white/20">
+                <h2 className="text-xl font-bold text-slate-800">Recent Activity</h2>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="flex-1">
+                      <p className="text-sm text-slate-700">Project completed by Michael Chen</p>
+                      <p className="text-xs text-slate-500">2 hours ago</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="flex-1">
+                      <p className="text-sm text-slate-700">New proposal received</p>
+                      <p className="text-xs text-slate-500">5 hours ago</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                    <div className="flex-1">
+                      <p className="text-sm text-slate-700">Payment processed for Sarah Johnson</p>
+                      <p className="text-xs text-slate-500">1 day ago</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
