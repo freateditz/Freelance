@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 
 class FreelanceHubAPITester:
-    def __init__(self, base_url="https://freelance-connect-8.preview.emergentagent.com"):
+    def __init__(self, base_url="https://glass-dashboard-3.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
