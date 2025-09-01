@@ -331,19 +331,19 @@ const Navigation = () => {
   );
 };
 
-// Home Page Component - Enhanced with classic professional design
+// Enhanced Home Page Component with Glassmorphism and Classic Design
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const categories = [
-    { id: "development", name: "Programming & Tech", icon: Code, color: "bg-blue-500", count: "2,543 services" },
-    { id: "design", name: "Graphics & Design", icon: Palette, color: "bg-purple-500", count: "1,892 services" },
-    { id: "writing", name: "Writing & Translation", icon: PenTool, color: "bg-green-500", count: "1,456 services" },
-    { id: "marketing", name: "Digital Marketing", icon: Megaphone, color: "bg-orange-500", count: "987 services" },
-    { id: "video", name: "Video & Animation", icon: Camera, color: "bg-red-500", count: "743 services" },
-    { id: "music", name: "Music & Audio", icon: Music, color: "bg-indigo-500", count: "521 services" },
-    { id: "business", name: "Business", icon: Briefcase, color: "bg-teal-500", count: "834 services" },
-    { id: "ai", name: "AI Services", icon: Zap, color: "bg-yellow-500", count: "421 services" }
+    { id: "development", name: "Programming & Tech", icon: Code, color: "from-blue-500 to-blue-600", count: "2,543 services" },
+    { id: "design", name: "Graphics & Design", icon: Palette, color: "from-purple-500 to-purple-600", count: "1,892 services" },
+    { id: "writing", name: "Writing & Translation", icon: PenTool, color: "from-green-500 to-green-600", count: "1,456 services" },
+    { id: "marketing", name: "Digital Marketing", icon: Megaphone, color: "from-orange-500 to-orange-600", count: "987 services" },
+    { id: "video", name: "Video & Animation", icon: Camera, color: "from-red-500 to-red-600", count: "743 services" },
+    { id: "music", name: "Music & Audio", icon: Music, color: "from-indigo-500 to-indigo-600", count: "521 services" },
+    { id: "business", name: "Business", icon: Briefcase, color: "from-teal-500 to-teal-600", count: "834 services" },
+    { id: "ai", name: "AI Services", icon: Zap, color: "from-yellow-500 to-yellow-600", count: "421 services" }
   ];
 
   const stats = [
@@ -375,26 +375,30 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-purple-50/80"></div>
+      <div className="absolute inset-0" style={{
+        backgroundImage: `radial-gradient(circle at 25px 25px, rgba(16, 185, 129, 0.1) 2px, transparent 0)`,
+        backgroundSize: '50px 50px'
+      }}></div>
+      
       <Navigation />
       
-      {/* Hero Section - Enhanced */}
-      <section className="relative bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-20 lg:py-28 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        
+      {/* Enhanced Hero Section */}
+      <section className="relative py-20 lg:py-28">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-6">
-                <div className="inline-flex items-center px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full text-sm font-medium">
+                <div className="inline-flex items-center px-4 py-2 bg-white/30 backdrop-blur-xl text-emerald-800 rounded-full text-sm font-medium border border-white/20 shadow-lg">
                   <TrendingUp className="h-4 w-4 mr-2" />
                   #1 Freelance Marketplace
                 </div>
                 
                 <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-tight">
                   Find the best
-                  <span className="text-emerald-600 block">freelance services</span>
+                  <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent block">freelance services</span>
                   for your business
                 </h1>
                 
@@ -404,19 +408,19 @@ const HomePage = () => {
                 </p>
               </div>
               
-              {/* Enhanced Search Bar */}
-              <div className="bg-white rounded-2xl shadow-xl p-2 max-w-lg">
+              {/* Enhanced Search Bar with Glassmorphism */}
+              <div className="bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-emerald-500/20 p-3 max-w-lg border border-white/30">
                 <div className="flex">
                   <div className="flex-1 relative">
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
                     <Input
                       placeholder="What service are you looking for?"
-                      className="pl-12 h-14 text-lg border-0 focus:ring-0"
+                      className="pl-12 h-14 text-lg border-0 focus:ring-0 bg-transparent placeholder:text-slate-500"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
                   </div>
-                  <Button className="h-14 px-8 bg-emerald-600 hover:bg-emerald-700 rounded-xl">
+                  <Button className="h-14 px-8 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-2xl shadow-lg">
                     Search
                   </Button>
                 </div>
@@ -439,26 +443,26 @@ const HomePage = () => {
               </div>
             </div>
             
-            {/* Hero Image */}
+            {/* Enhanced Hero Image with Glassmorphism */}
             <div className="relative">
-              <div className="aspect-square rounded-3xl overflow-hidden bg-white shadow-2xl relative">
+              <div className="aspect-square rounded-3xl overflow-hidden bg-white/20 backdrop-blur-xl shadow-2xl shadow-emerald-500/20 relative border border-white/30">
                 <img 
-                  src="https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB3b3Jrc3BhY2V8ZW58MHx8fHwxNzU2NzQxODcwfDA&ixlib=rb-4.1.0&q=85"
+                  src="https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwxfHx3b3Jrc3BhY2UlMjBwcm9mZXNzaW9uYWx8ZW58MHx8fHwxNzU2NzQ0Mzg2fDA&ixlib=rb-4.1.0&q=85"
                   alt="Professional workspace"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/20 to-transparent"></div>
               </div>
               
-              {/* Floating Cards */}
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-lg">
+              {/* Floating Glass Cards */}
+              <div className="absolute -bottom-6 -left-6 bg-white/20 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/30">
                 <div className="flex items-center space-x-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-sm font-medium text-slate-700">2,847 projects completed today</span>
                 </div>
               </div>
               
-              <div className="absolute -top-6 -right-6 bg-white rounded-xl p-4 shadow-lg">
+              <div className="absolute -top-6 -right-6 bg-white/20 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/30">
                 <div className="flex items-center space-x-2">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                   <span className="text-sm font-medium text-slate-700">4.9/5 average rating</span>
@@ -469,18 +473,18 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-slate-50">
+      {/* Enhanced Stats Section with Glassmorphism */}
+      <section className="py-16 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => {
               const IconComponent = stat.icon;
               return (
-                <div key={index} className="text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 rounded-2xl mb-4">
-                    <IconComponent className="h-8 w-8 text-emerald-600" />
+                <div key={index} className="text-center bg-white/20 backdrop-blur-xl rounded-2xl p-8 shadow-xl shadow-emerald-500/10 border border-white/30 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 group">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <IconComponent className="h-8 w-8 text-white" />
                   </div>
-                  <div className="text-3xl font-bold text-slate-900 mb-2">{stat.value}</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">{stat.value}</div>
                   <div className="text-slate-600">{stat.label}</div>
                 </div>
               );
@@ -489,8 +493,8 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Categories Section - Enhanced */}
-      <section className="py-20">
+      {/* Enhanced Categories Section */}
+      <section className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-slate-900 mb-6">Explore by Category</h2>
@@ -504,15 +508,15 @@ const HomePage = () => {
               const IconComponent = category.icon;
               return (
                 <Link key={category.id} to={`/browse?category=${category.id}`}>
-                  <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-0 bg-gradient-to-br from-white to-slate-50">
-                    <CardContent className="p-8 text-center">
-                      <div className={`w-20 h-20 ${category.color} rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                  <div className="group cursor-pointer bg-white/20 backdrop-blur-xl rounded-2xl p-8 shadow-xl shadow-slate-500/10 border border-white/30 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-2">
+                    <div className="text-center">
+                      <div className={`w-20 h-20 bg-gradient-to-br ${category.color} rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                         <IconComponent className="h-10 w-10 text-white" />
                       </div>
                       <h3 className="font-bold text-slate-900 text-lg mb-2">{category.name}</h3>
                       <p className="text-slate-500 text-sm">{category.count}</p>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </Link>
               );
             })}
@@ -520,8 +524,8 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Featured Services */}
-      <section className="py-20 bg-slate-50">
+      {/* Enhanced Featured Services */}
+      <section className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-16">
             <div>
@@ -529,7 +533,7 @@ const HomePage = () => {
               <p className="text-xl text-slate-600">Hand-picked services from our top-rated freelancers</p>
             </div>
             <Link to="/services">
-              <Button variant="outline" size="lg" className="hidden md:flex">
+              <Button className="hidden md:flex bg-white/20 backdrop-blur-xl hover:bg-white/30 border border-white/30 text-slate-700">
                 View All Services
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -539,7 +543,7 @@ const HomePage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {mockServices.map((service) => (
               <Link key={service.id} to={`/service/${service.id}`}>
-                <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden border-0">
+                <div className="group cursor-pointer bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-slate-500/10 border border-white/30 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
                   <div className="aspect-video bg-slate-200 overflow-hidden">
                     <img 
                       src={service.image} 
@@ -547,7 +551,7 @@ const HomePage = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <CardContent className="p-6">
+                  <div className="p-6">
                     <div className="flex items-center space-x-2 mb-3">
                       <Avatar className="w-8 h-8">
                         <AvatarImage src={mockFreelancers.find(f => f.name === service.freelancer)?.profileImage} />
@@ -566,20 +570,20 @@ const HomePage = () => {
                         <span className="text-sm font-medium">{service.rating}</span>
                         <span className="text-sm text-slate-500">({service.reviews})</span>
                       </div>
-                      <Badge variant="secondary" className="text-xs">
+                      <Badge className="bg-white/50 backdrop-blur-sm text-slate-700 text-xs">
                         {service.category}
                       </Badge>
                     </div>
                     
                     <div className="flex justify-between items-center">
                       <div className="text-right">
-                        <div className="text-lg font-bold text-slate-900">From ${service.price}</div>
+                        <div className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">From ${service.price}</div>
                         <div className="text-sm text-slate-500">{service.deliveryTime}</div>
                       </div>
                       <Heart className="h-5 w-5 text-slate-400 hover:text-red-500 cursor-pointer transition-colors" />
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
@@ -587,7 +591,7 @@ const HomePage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20">
+      <section className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-slate-900 mb-6">How FreelanceHub Works</h2>
@@ -602,11 +606,11 @@ const HomePage = () => {
               return (
                 <div key={index} className="text-center relative">
                   {index < howItWorks.length - 1 && (
-                    <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-emerald-200 transform translate-x-1/2"></div>
+                    <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-emerald-200 to-teal-200 transform translate-x-1/2"></div>
                   )}
-                  <div className="relative inline-flex items-center justify-center w-24 h-24 bg-emerald-600 rounded-full mb-6 text-white text-2xl font-bold shadow-lg">
+                  <div className="relative inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full mb-6 text-white text-2xl font-bold shadow-2xl">
                     {step.step}
-                    <div className="absolute inset-0 bg-emerald-600 rounded-full animate-pulse opacity-75"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full animate-pulse opacity-75"></div>
                   </div>
                   <h3 className="text-2xl font-bold text-slate-900 mb-4">{step.title}</h3>
                   <p className="text-slate-600 text-lg">{step.description}</p>
@@ -617,8 +621,8 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-slate-50">
+      {/* Enhanced Testimonials Section */}
+      <section className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-slate-900 mb-6">What Our Clients Say</h2>
@@ -629,40 +633,43 @@ const HomePage = () => {
           
           <div className="grid md:grid-cols-3 gap-8">
             {mockTestimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="border-0 shadow-lg">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-6">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    ))}
+              <div key={testimonial.id} className="bg-white/20 backdrop-blur-xl rounded-2xl p-8 shadow-xl shadow-slate-500/10 border border-white/30 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                
+                <Quote className="h-10 w-10 text-emerald-600 mb-4" />
+                
+                <p className="text-slate-700 text-lg mb-6 leading-relaxed">
+                  "{testimonial.text}"
+                </p>
+                
+                <div className="flex items-center">
+                  <Avatar className="w-12 h-12 mr-4">
+                    <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+                    <AvatarFallback>{testimonial.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="font-semibold text-slate-900">{testimonial.name}</div>
+                    <div className="text-slate-600 text-sm">{testimonial.company}</div>
                   </div>
-                  
-                  <Quote className="h-10 w-10 text-emerald-600 mb-4" />
-                  
-                  <p className="text-slate-700 text-lg mb-6 leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-                  
-                  <div className="flex items-center">
-                    <Avatar className="w-12 h-12 mr-4">
-                      <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                      <AvatarFallback>{testimonial.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-semibold text-slate-900">{testimonial.name}</div>
-                      <div className="text-slate-600 text-sm">{testimonial.company}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-emerald-600 to-teal-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* Enhanced CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-emerald-600 to-teal-700 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/90 to-teal-700/90"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 40px 40px, rgba(255, 255, 255, 0.1) 2px, transparent 0)`,
+          backgroundSize: '80px 80px'
+        }}></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-5xl font-bold mb-6">
             Ready to get started?
           </h2>
@@ -671,13 +678,13 @@ const HomePage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link to="/login">
-              <Button size="lg" variant="secondary" className="h-14 px-10 text-lg">
+              <Button size="lg" className="h-14 px-10 text-lg bg-white/20 backdrop-blur-xl hover:bg-white/30 border border-white/30">
                 <Briefcase className="mr-2 h-6 w-6" />
                 Hire Freelancers
               </Button>
             </Link>
             <Link to="/login">
-              <Button size="lg" variant="outline" className="h-14 px-10 text-lg border-white text-white hover:bg-white hover:text-emerald-600">
+              <Button size="lg" className="h-14 px-10 text-lg bg-gradient-to-r from-white to-emerald-50 text-emerald-700 hover:from-emerald-50 hover:to-white shadow-xl">
                 <User className="mr-2 h-6 w-6" />
                 Start Freelancing
               </Button>
@@ -686,23 +693,24 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-slate-900 text-slate-300 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Enhanced Footer */}
+      <footer className="bg-slate-900/95 backdrop-blur-xl text-slate-300 py-16 relative">
+        <div className="absolute inset-0 bg-slate-900/95"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-5 gap-8 mb-12">
             <div className="md:col-span-2">
-              <h3 className="text-3xl font-bold text-white mb-6">FreelanceHub</h3>
+              <h3 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent mb-6">FreelanceHub</h3>
               <p className="text-slate-400 text-lg mb-6 max-w-md">
                 The world's largest freelance marketplace. Connect with skilled professionals and get work done efficiently.
               </p>
               <div className="flex space-x-6">
-                <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-emerald-600 cursor-pointer transition-colors">
+                <div className="w-10 h-10 bg-slate-800/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-emerald-600 cursor-pointer transition-colors">
                   <Globe className="h-5 w-5" />
                 </div>
-                <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-emerald-600 cursor-pointer transition-colors">
+                <div className="w-10 h-10 bg-slate-800/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-emerald-600 cursor-pointer transition-colors">
                   <Mail className="h-5 w-5" />
                 </div>
-                <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-emerald-600 cursor-pointer transition-colors">
+                <div className="w-10 h-10 bg-slate-800/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-emerald-600 cursor-pointer transition-colors">
                   <Phone className="h-5 w-5" />
                 </div>
               </div>
@@ -741,7 +749,7 @@ const HomePage = () => {
           
           <div className="border-t border-slate-800 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-slate-400">&copy; 2024 FreelanceHub. All rights reserved.</p>
+              <p className="text-slate-400">&copy; 2025 FreelanceHub. All rights reserved.</p>
               <div className="flex space-x-8 mt-4 md:mt-0">
                 <Link to="#" className="text-slate-400 hover:text-white transition-colors">Privacy Policy</Link>
                 <Link to="#" className="text-slate-400 hover:text-white transition-colors">Terms of Service</Link>
