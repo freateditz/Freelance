@@ -1631,105 +1631,211 @@ const ClientDashboard = () => {
 
 const FreelancerDashboard = () => {
   const { user } = useAuth();
+  const [recentOrders] = useState([
+    { id: 1, title: "E-commerce Platform Development", client: "TechCorp Inc.", earnings: 2800, status: "Completed", rating: 5, deadline: "2025-01-25" },
+    { id: 2, title: "Mobile App UI Design", client: "StartupXYZ", earnings: 1500, status: "In Progress", rating: null, deadline: "2025-02-10" },
+    { id: 3, title: "Brand Identity Package", client: "Creative Co.", earnings: 900, status: "In Review", rating: null, deadline: "2025-02-05" },
+    { id: 4, title: "SEO Content Writing", client: "Digital Agency", earnings: 600, status: "Completed", rating: 4.8, deadline: "2025-01-30" }
+  ]);
+
+  const [skills] = useState([
+    { name: "React Development", level: 95, projects: 45 },
+    { name: "UI/UX Design", level: 88, projects: 32 },
+    { name: "Node.js", level: 82, projects: 28 },
+    { name: "Python", level: 78, projects: 25 }
+  ]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Navigation />
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-green-50 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23d1fae5" fill-opacity="0.4"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back, {user?.name}!</h1>
-          <p className="text-slate-600">Manage your services and grow your freelance business</p>
+      {/* Enhanced Navigation with Glassmorphism */}
+      <nav className="bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-lg shadow-emerald-500/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-8">
+              <Link to="/">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">FreelanceHub</h1>
+              </Link>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
+                <Zap className="h-4 w-4 text-emerald-600" />
+                <span className="text-slate-700 font-medium">{user?.name}</span>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Grid3X3 className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Active Gigs</h3>
-              <p className="text-3xl font-bold text-slate-900">8</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <DollarSign className="h-6 w-6 text-green-600" />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Monthly Earnings</h3>
-              <p className="text-3xl font-bold text-slate-900">$4.2K</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Award className="h-6 w-6 text-purple-600" />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Completed Orders</h3>
-              <p className="text-3xl font-bold text-slate-900">127</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Star className="h-6 w-6 text-orange-600" />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Rating</h3>
-              <p className="text-3xl font-bold text-slate-900">4.9</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Orders</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center p-4 bg-slate-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium">Website Development</h4>
-                    <p className="text-sm text-slate-600">for TechCorp Inc.</p>
-                  </div>
-                  <Badge className="bg-green-100 text-green-800">$1,200</Badge>
-                </div>
-                <div className="flex justify-between items-center p-4 bg-slate-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium">App Design</h4>
-                    <p className="text-sm text-slate-600">for StartupXYZ</p>
-                  </div>
-                  <Badge variant="secondary">$800</Badge>
+      </nav>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Hero Section */}
+        <div className="mb-12 text-center">
+          <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-emerald-500/20 border border-white/30">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-4">
+              Welcome back, {user?.name}! 🚀
+            </h1>
+            <p className="text-slate-600 text-lg">Grow your freelance business and showcase your talent</p>
+            <div className="mt-6 flex justify-center">
+              <div className="bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full p-1">
+                <div className="bg-white rounded-full px-6 py-2">
+                  <span className="text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                    Freelancer Dashboard
+                  </span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
+        </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Button className="w-full justify-start bg-emerald-600 hover:bg-emerald-700">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create New Gig
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Edit className="h-4 w-4 mr-2" />
-                  Edit Profile
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  View Analytics
-                </Button>
+        {/* Stats Cards with Glassmorphism */}
+        <div className="grid md:grid-cols-4 gap-6 mb-12">
+          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-emerald-500/10 border border-white/30 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 group">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <Grid3X3 className="h-8 w-8 text-white" />
               </div>
-            </CardContent>
-          </Card>
+              <h3 className="font-semibold text-slate-700 mb-2">Active Gigs</h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">8</p>
+              <p className="text-sm text-slate-500 mt-1">3 new this week</p>
+            </div>
+          </div>
+
+          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-green-500/10 border border-white/30 hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 group">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <TrendingUp className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-slate-700 mb-2">Monthly Revenue</h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">$5.8K</p>
+              <p className="text-sm text-slate-500 mt-1">+38% from last month</p>
+            </div>
+          </div>
+
+          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-yellow-500/10 border border-white/30 hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-300 group">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <Target className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-slate-700 mb-2">Projects Completed</h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-amber-600 bg-clip-text text-transparent">127</p>
+              <p className="text-sm text-slate-500 mt-1">100% on-time delivery</p>
+            </div>
+          </div>
+
+          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-orange-500/10 border border-white/30 hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-300 group">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <Star className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-slate-700 mb-2">Client Rating</h3>
+              <p className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">4.9</p>
+              <p className="text-sm text-slate-500 mt-1">Top 1% performer</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Recent Orders */}
+          <div className="lg:col-span-2">
+            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-emerald-500/10 border border-white/30 overflow-hidden">
+              <div className="p-6 border-b border-white/20">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold text-slate-800">Recent Projects</h2>
+                  <Badge className="bg-emerald-100/80 text-emerald-800 backdrop-blur-sm">4 Active</Badge>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  {recentOrders.map((order) => (
+                    <div key={order.id} className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/40 transition-all duration-300">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-800 mb-1">{order.title}</h4>
+                          <p className="text-sm text-slate-600">for {order.client}</p>
+                        </div>
+                        <div className="text-right">
+                          <Badge className={`${order.status === 'Completed' ? 'bg-green-100/80 text-green-800' : order.status === 'In Progress' ? 'bg-blue-100/80 text-blue-800' : 'bg-yellow-100/80 text-yellow-800'} backdrop-blur-sm`}>
+                            {order.status}
+                          </Badge>
+                          <p className="text-sm font-bold text-emerald-600 mt-1">${order.earnings}</p>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center text-xs text-slate-500">
+                        <span>Due: {order.deadline}</span>
+                        <div className="flex items-center space-x-4">
+                          {order.rating && (
+                            <div className="flex items-center space-x-1">
+                              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                              <span>{order.rating}</span>
+                            </div>
+                          )}
+                          <div className="flex space-x-2">
+                            <MessageSquare className="h-3 w-3" />
+                            <Edit className="h-3 w-3" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions & Skills */}
+          <div className="space-y-6">
+            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-teal-500/10 border border-white/30">
+              <div className="p-6 border-b border-white/20">
+                <h2 className="text-xl font-bold text-slate-800">Quick Actions</h2>
+              </div>
+              <div className="p-6">
+                <div className="space-y-3">
+                  <Button className="w-full justify-start bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Create New Gig
+                  </Button>
+                  <Button className="w-full justify-start bg-white/30 backdrop-blur-sm hover:bg-white/40 text-slate-700 border border-white/30">
+                    <Edit className="h-4 w-4 mr-2" />
+                    Update Profile
+                  </Button>
+                  <Button className="w-full justify-start bg-white/30 backdrop-blur-sm hover:bg-white/40 text-slate-700 border border-white/30">
+                    <BarChart3 className="h-4 w-4 mr-2" />
+                    View Analytics
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Top Skills */}
+            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-green-500/10 border border-white/30">
+              <div className="p-6 border-b border-white/20">
+                <h2 className="text-xl font-bold text-slate-800">Top Skills</h2>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  {skills.map((skill, index) => (
+                    <div key={index} className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-slate-700">{skill.name}</span>
+                        <span className="text-xs text-slate-500">{skill.projects} projects</span>
+                      </div>
+                      <div className="w-full bg-white/30 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${skill.level}%` }}
+                        ></div>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs text-emerald-600 font-medium">{skill.level}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
