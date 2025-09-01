@@ -1129,126 +1129,289 @@ const ServicesPage = () => {
   );
 };
 
-// Service Detail Page
+// Enhanced Service Detail Page with Glassmorphism and Comprehensive Information
 const ServiceDetailPage = () => {
   const { id } = useParams();
   const service = mockServices.find(s => s.id === parseInt(id));
   const freelancer = mockFreelancers.find(f => f.name === service?.freelancer);
 
+  const [activeTab, setActiveTab] = useState('overview');
+  const [reviews] = useState([
+    { id: 1, author: "John Doe", rating: 5, comment: "Excellent work! Delivered exactly what was promised and on time.", date: "2025-01-20", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" },
+    { id: 2, author: "Sarah Wilson", rating: 5, comment: "Very professional and creative. Will definitely work with them again.", date: "2025-01-15", avatar: "https://images.unsplash.com/photo-1494790108755-2616b2e4c6f4?w=100&h=100&fit=crop&crop=face" },
+    { id: 3, author: "Mike Chen", rating: 4, comment: "Good quality work. Minor revisions needed but overall satisfied.", date: "2025-01-10", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" }
+  ]);
+
+  const [projectTimeline] = useState([
+    { phase: "Requirements Analysis", duration: "1-2 days", description: "Understanding your needs and project scope" },
+    { phase: "Design & Planning", duration: "2-3 days", description: "Creating wireframes and technical specifications" },
+    { phase: "Development", duration: "3-4 days", description: "Building the solution with modern technologies" },
+    { phase: "Testing & Delivery", duration: "1 day", description: "Quality assurance and final delivery" }
+  ]);
+
   if (!service) return <div>Service not found</div>;
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Navigation />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/30 to-slate-50/30"></div>
+      <div className="absolute inset-0" style={{
+        backgroundImage: `radial-gradient(circle at 30px 30px, rgba(148, 163, 184, 0.1) 1px, transparent 0)`,
+        backgroundSize: '60px 60px'
+      }}></div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Enhanced Navigation */}
+      <nav className="bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link to="/">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">FreelanceHub</h1>
+            </Link>
+            <div className="flex items-center space-x-4">
+              <Link to="/services">
+                <Button variant="ghost" className="bg-white/20 backdrop-blur-sm hover:bg-white/30">
+                  ← Back to Services
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="aspect-video bg-slate-200">
+            {/* Service Header */}
+            <div className="bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-blue-500/10 border border-white/30 overflow-hidden mb-8">
+              <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 relative overflow-hidden">
                 <img 
                   src={service.image} 
                   alt={service.title}
                   className="w-full h-full object-cover"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                <div className="absolute bottom-4 left-4">
+                  <Badge className="bg-white/90 backdrop-blur-sm text-slate-800 shadow-lg">
+                    {service.category}
+                  </Badge>
+                </div>
               </div>
               
               <div className="p-8">
-                <div className="flex items-center justify-between mb-6">
-                  <h1 className="text-3xl font-bold text-slate-900">{service.title}</h1>
-                  <div className="flex items-center space-x-1">
-                    <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    <span className="font-medium text-lg">{service.rating}</span>
-                    <span className="text-slate-500">({service.reviews} reviews)</span>
-                  </div>
-                </div>
-                
-                <p className="text-slate-600 text-lg mb-8 leading-relaxed">
-                  {service.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {service.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="px-3 py-1">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                
-                {/* About the Seller */}
-                <div className="border-t pt-8">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-6">About the Seller</h3>
-                  <div className="flex items-start space-x-4">
-                    <Avatar className="w-16 h-16">
-                      <AvatarImage src={freelancer?.profileImage} alt={freelancer?.name} />
-                      <AvatarFallback>{freelancer?.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-slate-900 text-lg">{freelancer?.name}</h4>
-                      <p className="text-slate-600 mb-2">{freelancer?.title}</p>
-                      <p className="text-slate-600 mb-4">{freelancer?.description}</p>
-                      <div className="flex items-center space-x-4 text-sm text-slate-600">
-                        <div className="flex items-center">
-                          <MapPin className="h-4 w-4 mr-1" />
-                          {freelancer?.location}
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1" />
-                          Responds in {freelancer?.responseTime}
-                        </div>
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex-1">
+                    <h1 className="text-3xl font-bold text-slate-900 mb-4 leading-tight">{service.title}</h1>
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="flex items-center space-x-2">
+                        <Avatar className="w-8 h-8">
+                          <AvatarImage src={freelancer?.profileImage} alt={freelancer?.name} />
+                          <AvatarFallback>{freelancer?.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        </Avatar>
+                        <span className="font-medium text-slate-700">{service.freelancer}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <span className="font-medium text-lg">{service.rating}</span>
+                        <span className="text-slate-500">({service.reviews} reviews)</span>
                       </div>
                     </div>
                   </div>
+                  <div className="flex space-x-2">
+                    <Button variant="outline" size="sm" className="bg-white/50 backdrop-blur-sm border-white/30">
+                      <Heart className="h-4 w-4 mr-2" />
+                      Save
+                    </Button>
+                    <Button variant="outline" size="sm" className="bg-white/50 backdrop-blur-sm border-white/30">
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share
+                    </Button>
+                  </div>
                 </div>
+
+                {/* Enhanced Tabs */}
+                <div className="border-b border-white/20 mb-6">
+                  <div className="flex space-x-8">
+                    {['overview', 'timeline', 'reviews', 'portfolio'].map((tab) => (
+                      <button
+                        key={tab}
+                        onClick={() => setActiveTab(tab)}
+                        className={`py-3 px-1 text-sm font-medium capitalize transition-colors border-b-2 ${
+                          activeTab === tab
+                            ? 'border-blue-500 text-blue-600'
+                            : 'border-transparent text-slate-600 hover:text-slate-800'
+                        }`}
+                      >
+                        {tab}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tab Content */}
+                {activeTab === 'overview' && (
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900 mb-4">Service Description</h3>
+                      <p className="text-slate-700 text-lg leading-relaxed mb-6">
+                        {service.description}
+                      </p>
+                      <div className="bg-white/30 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                        <h4 className="font-semibold text-slate-900 mb-3">What You'll Get:</h4>
+                        <ul className="space-y-2 text-slate-700">
+                          <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Complete source code and documentation</li>
+                          <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Responsive design for all devices</li>
+                          <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />3 rounds of revisions included</li>
+                          <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />30 days of post-delivery support</li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900 mb-4">Technologies & Skills</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {service.tags.concat(['MongoDB', 'API Integration', 'Testing']).map((tag) => (
+                          <Badge key={tag} variant="secondary" className="px-3 py-1 bg-white/40 backdrop-blur-sm">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'timeline' && (
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-bold text-slate-900 mb-4">Project Timeline</h3>
+                    <div className="space-y-4">
+                      {projectTimeline.map((phase, index) => (
+                        <div key={index} className="bg-white/30 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                          <div className="flex items-start space-x-4">
+                            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                              {index + 1}
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-slate-900 mb-1">{phase.phase}</h4>
+                              <p className="text-slate-600 mb-2">{phase.description}</p>
+                              <Badge variant="outline" className="bg-white/50">
+                                <Clock className="h-3 w-3 mr-1" />
+                                {phase.duration}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'reviews' && (
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-bold text-slate-900">Client Reviews</h3>
+                      <div className="flex items-center space-x-2">
+                        <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                        <span className="font-medium text-lg">{service.rating}</span>
+                        <span className="text-slate-500">({service.reviews} reviews)</span>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      {reviews.map((review) => (
+                        <div key={review.id} className="bg-white/30 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                          <div className="flex items-start space-x-4">
+                            <Avatar className="w-10 h-10">
+                              <AvatarImage src={review.avatar} alt={review.author} />
+                              <AvatarFallback>{review.author.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <h4 className="font-semibold text-slate-900">{review.author}</h4>
+                                <span className="text-sm text-slate-500">{review.date}</span>
+                              </div>
+                              <div className="flex items-center mb-2">
+                                {[...Array(review.rating)].map((_, i) => (
+                                  <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                ))}
+                              </div>
+                              <p className="text-slate-700">{review.comment}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'portfolio' && (
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-bold text-slate-900 mb-4">Related Work</h3>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {freelancer?.portfolio.map((item, index) => (
+                        <div key={index} className="group cursor-pointer">
+                          <div className="aspect-video bg-slate-200 rounded-xl overflow-hidden mb-3">
+                            <img 
+                              src={item.image} 
+                              alt={item.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                          <h4 className="font-medium text-slate-900">{item.title}</h4>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
           
-          {/* Sidebar */}
+          {/* Enhanced Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-24">
-              <CardContent className="p-6">
+            <div className="bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-purple-500/10 border border-white/30 sticky top-24 overflow-hidden">
+              <div className="p-6">
                 <div className="text-center mb-6">
-                  <div className="text-3xl font-bold text-slate-900 mb-2">From ${service.price}</div>
-                  <div className="text-slate-600">Delivery in {service.deliveryTime}</div>
+                  <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                    From ${service.price}
+                  </div>
+                  <div className="text-slate-600 flex items-center justify-center">
+                    <Clock className="h-4 w-4 mr-1" />
+                    Delivery in {service.deliveryTime}
+                  </div>
                 </div>
                 
                 <div className="space-y-4 mb-6">
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-600">Category:</span>
-                    <Badge variant="secondary">{service.category}</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-600">Revisions:</span>
-                    <span className="font-medium">3 included</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-600">Source files:</span>
-                    <CheckCircle className="h-5 w-5 text-emerald-600" />
+                  <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-slate-600">Package includes:</span>
+                    </div>
+                    <ul className="space-y-1 text-sm text-slate-700">
+                      <li className="flex items-center"><CheckCircle className="h-3 w-3 text-green-500 mr-2" />Source files</li>
+                      <li className="flex items-center"><CheckCircle className="h-3 w-3 text-green-500 mr-2" />3 Revisions</li>
+                      <li className="flex items-center"><CheckCircle className="h-3 w-3 text-green-500 mr-2" />Commercial use</li>
+                    </ul>
                   </div>
                 </div>
                 
-                <div className="space-y-3">
-                  <Button className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-lg">
+                <div className="space-y-3 mb-6">
+                  <Button className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white text-lg shadow-lg">
                     Order Now
                   </Button>
-                  <Button variant="outline" className="w-full h-12">
+                  <Button className="w-full h-12 bg-white/30 backdrop-blur-sm hover:bg-white/40 border border-white/30">
                     <MessageSquare className="h-4 w-4 mr-2" />
                     Contact Seller
                   </Button>
                 </div>
                 
-                <div className="mt-6 pt-6 border-t text-center">
+                <div className="pt-6 border-t border-white/20">
                   <div className="flex items-center justify-center space-x-4 text-sm text-slate-600">
                     <div className="flex items-center">
-                      <Shield className="h-4 w-4 mr-1 text-emerald-600" />
+                      <Shield className="h-4 w-4 mr-1 text-green-500" />
                       Money-back guarantee
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </div>
