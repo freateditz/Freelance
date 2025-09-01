@@ -991,22 +991,6 @@ const FreelancerDashboard = () => {
                     My Gigs
                   </Button>
                   <Button 
-                    variant={activeTab === "orders" ? "default" : "ghost"} 
-                    className="w-full justify-start"
-                    onClick={() => setActiveTab("orders")}
-                  >
-                    <List className="h-4 w-4 mr-2" />
-                    Active Orders
-                  </Button>
-                  <Button 
-                    variant={activeTab === "earnings" ? "default" : "ghost"} 
-                    className="w-full justify-start"
-                    onClick={() => setActiveTab("earnings")}
-                  >
-                    <DollarSign className="h-4 w-4 mr-2" />
-                    Earnings
-                  </Button>
-                  <Button 
                     variant={activeTab === "profile" ? "default" : "ghost"} 
                     className="w-full justify-start"
                     onClick={() => setActiveTab("profile")}
@@ -1086,49 +1070,6 @@ const FreelancerDashboard = () => {
                     </CardContent>
                   </Card>
                 </div>
-
-                {/* Recent Activity */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Recent Orders</CardTitle>
-                    <CardDescription>Latest client orders and project updates</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-                        <div className="flex items-center space-x-4">
-                          <Avatar className="w-10 h-10">
-                            <AvatarFallback>JC</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <h4 className="font-medium text-slate-900">New order from Jane Client</h4>
-                            <p className="text-sm text-slate-600">E-commerce website development</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold text-emerald-600">$2,500</p>
-                          <p className="text-sm text-slate-500">2 hours ago</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-                        <div className="flex items-center space-x-4">
-                          <Avatar className="w-10 h-10">
-                            <AvatarFallback>MB</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <h4 className="font-medium text-slate-900">Order completed for Mike Business</h4>
-                            <p className="text-sm text-slate-600">Landing page design & development</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold text-slate-900">$800</p>
-                          <p className="text-sm text-slate-500">1 day ago</p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
             )}
 
@@ -1170,9 +1111,6 @@ const FreelancerDashboard = () => {
                           </Button>
                           <Button variant="outline" size="sm">
                             View Analytics
-                          </Button>
-                          <Button variant="outline" size="sm">
-                            Promote
                           </Button>
                         </div>
                       </CardContent>
