@@ -933,17 +933,742 @@ function App() {
   );
 }
 
-// Placeholder components for the routes (will be implemented)
-const BrowseFreelancersPage = () => <div>Browse Freelancers Page - Coming Soon</div>;
-const ServicesPage = () => <div>Services Page - Coming Soon</div>;
-const ServiceDetailPage = () => <div>Service Detail Page - Coming Soon</div>;
-const FreelancerProfilePage = () => <div>Freelancer Profile Page - Coming Soon</div>;
-const PostJobPage = () => <div>Post Job Page - Coming Soon</div>;
-const MessagesPage = () => <div>Messages Page - Coming Soon</div>;
-const HowItWorksPage = () => <div>How It Works Page - Coming Soon</div>;
-const AboutPage = () => <div>About Page - Coming Soon</div>;
-const ClientDashboard = () => <div>Client Dashboard - Coming Soon</div>;
-const FreelancerDashboard = () => <div>Freelancer Dashboard - Coming Soon</div>;
+// Browse Freelancers Page
+const BrowseFreelancersPage = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [sortBy, setSortBy] = useState("rating");
+
+  const categories = ["all", "development", "design", "writing", "marketing", "video", "music", "business"];
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navigation />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-slate-900 mb-4">Find Talented Freelancers</h1>
+          <p className="text-xl text-slate-600">Browse thousands of skilled professionals ready to work on your project</p>
+        </div>
+
+        {/* Search and Filters */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <div className="grid md:grid-cols-4 gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+              <Input
+                placeholder="Search freelancers..."
+                className="pl-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <select 
+              className="border border-slate-300 rounded-md px-3 py-2"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              {categories.map(cat => (
+                <option key={cat} value={cat}>{cat === 'all' ? 'All Categories' : cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
+              ))}
+            </select>
+            <select 
+              className="border border-slate-300 rounded-md px-3 py-2"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="rating">Highest Rated</option>
+              <option value="price">Lowest Price</option>
+              <option value="recent">Most Recent</option>
+            </select>
+            <Button className="bg-emerald-600 hover:bg-emerald-700">
+              <Filter className="h-4 w-4 mr-2" />
+              Apply Filters
+            </Button>
+          </div>
+        </div>
+
+        {/* Freelancers Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {mockFreelancers.map((freelancer) => (
+            <Link key={freelancer.id} to={`/freelancer/${freelancer.id}`}>
+              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <CardContent className="p-6">
+                  <div className="text-center mb-6">
+                    <Avatar className="w-20 h-20 mx-auto mb-4">
+                      <AvatarImage src={freelancer.profileImage} alt={freelancer.name} />
+                      <AvatarFallback>{freelancer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    </Avatar>
+                    <h3 className="font-bold text-slate-900 text-lg">{freelancer.name}</h3>
+                    <p className="text-slate-600 mb-2">{freelancer.title}</p>
+                    <div className="flex items-center justify-center space-x-1 mb-2">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <span className="font-medium">{freelancer.rating}</span>
+                      <span className="text-slate-500 text-sm">({freelancer.reviews} reviews)</span>
+                    </div>
+                    <div className="flex items-center justify-center text-sm text-slate-600">
+                      <MapPin className="h-4 w-4 mr-1" />
+                      {freelancer.location}
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap gap-1">
+                      {freelancer.skills.slice(0, 3).map((skill) => (
+                        <Badge key={skill} variant="secondary" className="text-xs">
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                    
+                    <div className="flex justify-between items-center pt-4 border-t">
+                      <div>
+                        <span className="text-sm text-slate-600">Starting at</span>
+                        <div className="font-bold text-emerald-600 text-lg">${freelancer.hourlyRate}/hr</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm text-slate-600">{freelancer.completedProjects} projects</div>
+                        <div className="text-sm text-emerald-600">{freelancer.availability}</div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Services Page
+const ServicesPage = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navigation />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-slate-900 mb-4">Browse Services</h1>
+          <p className="text-xl text-slate-600">Discover services from talented freelancers worldwide</p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <div className="flex gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+              <Input
+                placeholder="What service are you looking for?"
+                className="pl-10 h-12"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Button className="h-12 px-8 bg-emerald-600 hover:bg-emerald-700">
+              Search
+            </Button>
+          </div>
+        </div>
+
+        {/* Services Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {mockServices.map((service) => (
+            <Link key={service.id} to={`/service/${service.id}`}>
+              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="aspect-video bg-slate-200 overflow-hidden rounded-t-lg">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Avatar className="w-6 h-6">
+                      <AvatarImage src={mockFreelancers.find(f => f.name === service.freelancer)?.profileImage} />
+                      <AvatarFallback className="text-xs">{service.freelancer.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    </Avatar>
+                    <span className="text-xs text-slate-600">{service.freelancer}</span>
+                  </div>
+                  
+                  <h3 className="font-medium text-slate-900 line-clamp-2 mb-3 text-sm">
+                    {service.title}
+                  </h3>
+                  
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      <span className="text-xs font-medium">{service.rating}</span>
+                      <span className="text-xs text-slate-500">({service.reviews})</span>
+                    </div>
+                    <Badge variant="secondary" className="text-xs">
+                      {service.category}
+                    </Badge>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="font-bold text-slate-900">From ${service.price}</div>
+                      <div className="text-xs text-slate-500">{service.deliveryTime}</div>
+                    </div>
+                    <Heart className="h-4 w-4 text-slate-400 hover:text-red-500 cursor-pointer" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Service Detail Page
+const ServiceDetailPage = () => {
+  const { id } = useParams();
+  const service = mockServices.find(s => s.id === parseInt(id));
+  const freelancer = mockFreelancers.find(f => f.name === service?.freelancer);
+
+  if (!service) return <div>Service not found</div>;
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navigation />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div className="aspect-video bg-slate-200">
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h1 className="text-3xl font-bold text-slate-900">{service.title}</h1>
+                  <div className="flex items-center space-x-1">
+                    <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                    <span className="font-medium text-lg">{service.rating}</span>
+                    <span className="text-slate-500">({service.reviews} reviews)</span>
+                  </div>
+                </div>
+                
+                <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+                  {service.description}
+                </p>
+                
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {service.tags.map((tag) => (
+                    <Badge key={tag} variant="secondary" className="px-3 py-1">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                
+                {/* About the Seller */}
+                <div className="border-t pt-8">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-6">About the Seller</h3>
+                  <div className="flex items-start space-x-4">
+                    <Avatar className="w-16 h-16">
+                      <AvatarImage src={freelancer?.profileImage} alt={freelancer?.name} />
+                      <AvatarFallback>{freelancer?.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-slate-900 text-lg">{freelancer?.name}</h4>
+                      <p className="text-slate-600 mb-2">{freelancer?.title}</p>
+                      <p className="text-slate-600 mb-4">{freelancer?.description}</p>
+                      <div className="flex items-center space-x-4 text-sm text-slate-600">
+                        <div className="flex items-center">
+                          <MapPin className="h-4 w-4 mr-1" />
+                          {freelancer?.location}
+                        </div>
+                        <div className="flex items-center">
+                          <Clock className="h-4 w-4 mr-1" />
+                          Responds in {freelancer?.responseTime}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <Card className="sticky top-24">
+              <CardContent className="p-6">
+                <div className="text-center mb-6">
+                  <div className="text-3xl font-bold text-slate-900 mb-2">From ${service.price}</div>
+                  <div className="text-slate-600">Delivery in {service.deliveryTime}</div>
+                </div>
+                
+                <div className="space-y-4 mb-6">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Category:</span>
+                    <Badge variant="secondary">{service.category}</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Revisions:</span>
+                    <span className="font-medium">3 included</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Source files:</span>
+                    <CheckCircle className="h-5 w-5 text-emerald-600" />
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <Button className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-lg">
+                    Order Now
+                  </Button>
+                  <Button variant="outline" className="w-full h-12">
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Contact Seller
+                  </Button>
+                </div>
+                
+                <div className="mt-6 pt-6 border-t text-center">
+                  <div className="flex items-center justify-center space-x-4 text-sm text-slate-600">
+                    <div className="flex items-center">
+                      <Shield className="h-4 w-4 mr-1 text-emerald-600" />
+                      Money-back guarantee
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Freelancer Profile Page
+const FreelancerProfilePage = () => {
+  const { id } = useParams();
+  const freelancer = mockFreelancers.find(f => f.id === parseInt(id));
+
+  if (!freelancer) return <div>Freelancer not found</div>;
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navigation />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Profile */}
+          <div className="lg:col-span-2">
+            <Card className="mb-8">
+              <CardContent className="p-8">
+                <div className="flex items-start space-x-6 mb-8">
+                  <Avatar className="w-24 h-24">
+                    <AvatarImage src={freelancer.profileImage} alt={freelancer.name} />
+                    <AvatarFallback className="text-2xl">{freelancer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <h1 className="text-3xl font-bold text-slate-900 mb-2">{freelancer.name}</h1>
+                    <p className="text-xl text-slate-600 mb-4">{freelancer.title}</p>
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="flex items-center">
+                        <Star className="h-5 w-5 fill-yellow-400 text-yellow-400 mr-1" />
+                        <span className="font-medium text-lg">{freelancer.rating}</span>
+                        <span className="text-slate-500 ml-1">({freelancer.reviews} reviews)</span>
+                      </div>
+                      <div className="flex items-center text-slate-600">
+                        <MapPin className="h-4 w-4 mr-1" />
+                        {freelancer.location}
+                      </div>
+                    </div>
+                    <p className="text-slate-600 leading-relaxed">{freelancer.description}</p>
+                  </div>
+                </div>
+                
+                <div className="grid md:grid-cols-3 gap-6 mb-8">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-slate-900">{freelancer.completedProjects}</div>
+                    <div className="text-slate-600">Projects Completed</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-slate-900">{freelancer.responseTime}</div>
+                    <div className="text-slate-600">Response Time</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-emerald-600">{freelancer.availability}</div>
+                    <div className="text-slate-600">Availability</div>
+                  </div>
+                </div>
+                
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-4">Skills</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {freelancer.skills.map((skill) => (
+                        <Badge key={skill} variant="secondary" className="px-3 py-1">
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-4">Languages</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {freelancer.languages.map((language) => (
+                        <Badge key={language} variant="outline" className="px-3 py-1">
+                          {language}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Portfolio */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Portfolio</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {freelancer.portfolio.map((item, index) => (
+                    <div key={index} className="group cursor-pointer">
+                      <div className="aspect-video bg-slate-200 rounded-lg overflow-hidden mb-3">
+                        <img 
+                          src={item.image} 
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <h4 className="font-medium text-slate-900">{item.title}</h4>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <Card className="sticky top-24">
+              <CardContent className="p-6">
+                <div className="text-center mb-6">
+                  <div className="text-3xl font-bold text-emerald-600 mb-2">${freelancer.hourlyRate}/hr</div>
+                  <div className="text-slate-600">Starting rate</div>
+                </div>
+                
+                <div className="space-y-3 mb-6">
+                  <Button className="w-full h-12 bg-emerald-600 hover:bg-emerald-700">
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Contact Me
+                  </Button>
+                  <Button variant="outline" className="w-full h-12">
+                    <Heart className="h-4 w-4 mr-2" />
+                    Save Profile
+                  </Button>
+                </div>
+                
+                <div className="space-y-4 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Response time:</span>
+                    <span className="font-medium">{freelancer.responseTime}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Availability:</span>
+                    <span className="font-medium text-emerald-600">{freelancer.availability}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Member since:</span>
+                    <span className="font-medium">Jan 2022</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Last seen:</span>
+                    <span className="font-medium">2 hours ago</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Simple Dashboard Components for now
+const ClientDashboard = () => {
+  const { user } = useAuth();
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navigation />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back, {user?.name}!</h1>
+          <p className="text-slate-600">Manage your projects and find new talent</p>
+        </div>
+
+        <div className="grid md:grid-cols-4 gap-6 mb-8">
+          <Card>
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Briefcase className="h-6 w-6 text-blue-600" />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">Active Projects</h3>
+              <p className="text-3xl font-bold text-slate-900">5</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">Total Spent</h3>
+              <p className="text-3xl font-bold text-slate-900">$12.5K</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Users className="h-6 w-6 text-purple-600" />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">Freelancers Hired</h3>
+              <p className="text-3xl font-bold text-slate-900">23</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Award className="h-6 w-6 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">Success Rate</h3>
+              <p className="text-3xl font-bold text-slate-900">98%</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Projects</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-4 bg-slate-50 rounded-lg">
+                  <div>
+                    <h4 className="font-medium">Website Redesign</h4>
+                    <p className="text-sm text-slate-600">by Sarah Johnson</p>
+                  </div>
+                  <Badge className="bg-green-100 text-green-800">Completed</Badge>
+                </div>
+                <div className="flex justify-between items-center p-4 bg-slate-50 rounded-lg">
+                  <div>
+                    <h4 className="font-medium">Logo Design</h4>
+                    <p className="text-sm text-slate-600">by Michael Chen</p>
+                  </div>
+                  <Badge variant="secondary">In Progress</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <Link to="/post-job">
+                  <Button className="w-full justify-start bg-emerald-600 hover:bg-emerald-700">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Post a New Job
+                  </Button>
+                </Link>
+                <Link to="/browse">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Search className="h-4 w-4 mr-2" />
+                    Browse Freelancers
+                  </Button>
+                </Link>
+                <Link to="/messages">
+                  <Button variant="outline" className="w-full justify-start">
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    View Messages
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const FreelancerDashboard = () => {
+  const { user } = useAuth();
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navigation />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back, {user?.name}!</h1>
+          <p className="text-slate-600">Manage your services and grow your freelance business</p>
+        </div>
+
+        <div className="grid md:grid-cols-4 gap-6 mb-8">
+          <Card>
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Grid3X3 className="h-6 w-6 text-blue-600" />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">Active Gigs</h3>
+              <p className="text-3xl font-bold text-slate-900">8</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">Monthly Earnings</h3>
+              <p className="text-3xl font-bold text-slate-900">$4.2K</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Award className="h-6 w-6 text-purple-600" />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">Completed Orders</h3>
+              <p className="text-3xl font-bold text-slate-900">127</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Star className="h-6 w-6 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">Rating</h3>
+              <p className="text-3xl font-bold text-slate-900">4.9</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Orders</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-4 bg-slate-50 rounded-lg">
+                  <div>
+                    <h4 className="font-medium">Website Development</h4>
+                    <p className="text-sm text-slate-600">for TechCorp Inc.</p>
+                  </div>
+                  <Badge className="bg-green-100 text-green-800">$1,200</Badge>
+                </div>
+                <div className="flex justify-between items-center p-4 bg-slate-50 rounded-lg">
+                  <div>
+                    <h4 className="font-medium">App Design</h4>
+                    <p className="text-sm text-slate-600">for StartupXYZ</p>
+                  </div>
+                  <Badge variant="secondary">$800</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <Button className="w-full justify-start bg-emerald-600 hover:bg-emerald-700">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create New Gig
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Edit className="h-4 w-4 mr-2" />
+                  Edit Profile
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  View Analytics
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Other placeholder pages
+const PostJobPage = () => (
+  <div className="min-h-screen bg-slate-50">
+    <Navigation />
+    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+      <h1 className="text-4xl font-bold text-slate-900 mb-4">Post a Job</h1>
+      <p className="text-xl text-slate-600">Create a project and find the perfect freelancer</p>
+    </div>
+  </div>
+);
+
+const MessagesPage = () => (
+  <div className="min-h-screen bg-slate-50">
+    <Navigation />
+    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+      <h1 className="text-4xl font-bold text-slate-900 mb-4">Messages</h1>
+      <p className="text-xl text-slate-600">Communicate with your clients and freelancers</p>
+    </div>
+  </div>
+);
+
+const HowItWorksPage = () => (
+  <div className="min-h-screen bg-slate-50">
+    <Navigation />
+    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+      <h1 className="text-4xl font-bold text-slate-900 mb-4">How It Works</h1>
+      <p className="text-xl text-slate-600">Learn how to get the most out of FreelanceHub</p>
+    </div>
+  </div>
+);
+
+const AboutPage = () => (
+  <div className="min-h-screen bg-slate-50">
+    <Navigation />
+    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+      <h1 className="text-4xl font-bold text-slate-900 mb-4">About FreelanceHub</h1>
+      <p className="text-xl text-slate-600">The world's leading freelance marketplace</p>
+    </div>
+  </div>
+);
 
 // Export App wrapped with AuthProvider
 export default function AppWithAuth() {
