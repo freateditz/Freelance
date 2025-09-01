@@ -318,6 +318,7 @@ const HomePage = () => {
 // Login Page Component
 const LoginPage = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [isFreelancer, setIsFreelancer] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -333,7 +334,7 @@ const LoginPage = () => {
     };
     login(userData, isFreelancer ? "freelancer" : "client");
     // Redirect to dashboard after login
-    window.location.href = '/dashboard';
+    navigate('/dashboard');
   };
 
   return (
