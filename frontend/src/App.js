@@ -54,7 +54,29 @@ import {
   FileText,
   BarChart3,
   Target,
-  Handshake
+  Handshake,
+  Upload,
+  Save,
+  X,
+  Building2,
+  GraduationCap,
+  Github,
+  Linkedin,
+  Twitter,
+  Book,
+  Image as ImageIcon,
+  Video,
+  File,
+  UserPlus,
+  LogIn,
+  ArrowLeft,
+  AlertCircle,
+  Folder,
+  Monitor,
+  Smartphone,
+  Layout,
+  Paintbrush,
+  BrainCircuit
 } from "lucide-react";
 
 // Create Auth Context
@@ -318,7 +340,7 @@ const Navigation = () => {
                   Sign In
                 </Button>
               </Link>
-              <Link to="/login">
+              <Link to="/signup">
                 <Button size="sm" className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-lg">
                   Join Now
                 </Button>
@@ -677,13 +699,13 @@ const HomePage = () => {
             Join the world's largest freelance marketplace and connect with talented professionals today
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link to="/login">
+            <Link to="/signup">
               <Button size="lg" className="h-14 px-10 text-lg bg-white/20 backdrop-blur-xl hover:bg-white/30 border border-white/30">
                 <Briefcase className="mr-2 h-6 w-6" />
                 Hire Freelancers
               </Button>
             </Link>
-            <Link to="/login">
+            <Link to="/signup">
               <Button size="lg" className="h-14 px-10 text-lg bg-gradient-to-r from-white to-emerald-50 text-emerald-700 hover:from-emerald-50 hover:to-white shadow-xl">
                 <User className="mr-2 h-6 w-6" />
                 Start Freelancing
@@ -730,7 +752,7 @@ const HomePage = () => {
               <h4 className="font-semibold text-white mb-6 text-lg">For Freelancers</h4>
               <ul className="space-y-4">
                 <li><Link to="/services" className="hover:text-white transition-colors">Find Work</Link></li>
-                <li><Link to="#" className="hover:text-white transition-colors">Create Profile</Link></li>
+                <li><Link to="/signup" className="hover:text-white transition-colors">Create Profile</Link></li>
                 <li><Link to="#" className="hover:text-white transition-colors">Success Tips</Link></li>
                 <li><Link to="#" className="hover:text-white transition-colors">Community</Link></li>
               </ul>
@@ -763,1254 +785,191 @@ const HomePage = () => {
   );
 };
 
-// Continue with more components in the next part due to length limit...
-
-// Login Page Component
+// Modern Login Page Component
 const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [isFreelancer, setIsFreelancer] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
+    userType: "client"
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const userData = {
-      id: 1,
-      name: isFreelancer ? "John Freelancer" : "Jane Client",
-      email: formData.email,
-      userType: isFreelancer ? "freelancer" : "client"
-    };
-    login(userData, isFreelancer ? "freelancer" : "client");
-    navigate('/dashboard');
+    setIsLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      const userData = {
+        id: 1,
+        name: formData.userType === "freelancer" ? "John Freelancer" : "Jane Client",
+        email: formData.email,
+        userType: formData.userType
+      };
+      login(userData, formData.userType);
+      navigate('/dashboard');
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div className="text-center">
-            <Link to="/">
-              <h1 className="text-3xl font-bold text-emerald-600 mb-2">FreelanceHub</h1>
-            </Link>
-            <h2 className="text-3xl font-bold text-slate-900">Welcome back</h2>
-            <p className="text-slate-600 mt-2">Sign in to your account to continue</p>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-xl p-8">
-            <Tabs value={isFreelancer ? "freelancer" : "client"} className="mb-6">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger 
-                  value="client" 
-                  onClick={() => setIsFreelancer(false)}
-                  className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                >
-                  I'm a Client
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="freelancer" 
-                  onClick={() => setIsFreelancer(true)}
-                  className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                >
-                  I'm a Freelancer
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-
-            <form onSubmit={handleLogin} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Email Address
-                </label>
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="h-12"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Password
-                </label>
-                <Input
-                  type="password"
-                  placeholder="Enter your password" 
-                  value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="h-12"
-                  required
-                />
-              </div>
-
-              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                <p className="text-sm font-medium text-amber-800 mb-2">Demo Credentials:</p>
-                <p className="text-xs text-amber-700">
-                  Email: demo@example.com<br />
-                  Password: demo123
-                </p>
-              </div>
-
-              <Button 
-                type="submit" 
-                className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-lg"
-              >
-                Sign In
-              </Button>
-            </form>
-
-            <div className="mt-6 text-center">
-              <p className="text-slate-600">
-                Don't have an account?{' '}
-                <a href="#" className="text-emerald-600 hover:text-emerald-700 font-medium">
-                  Sign up for free
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="hidden lg:block lg:flex-1">
-        <div className="h-full bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center p-12">
-          <div className="max-w-lg text-center text-white space-y-8">
-            <h3 className="text-4xl font-bold">
-              {isFreelancer ? "Start your freelance journey" : "Find perfect talent"}
-            </h3>
-            <p className="text-emerald-100 text-xl leading-relaxed">
-              {isFreelancer 
-                ? "Join thousands of freelancers building successful careers and working with amazing clients worldwide"
-                : "Connect with skilled professionals and bring your ideas to life with our global talent pool"
-              }
-            </p>
-            <div className="grid grid-cols-2 gap-6 text-sm">
-              <div className="bg-white/10 rounded-xl p-6">
-                <div className="text-3xl font-bold">10K+</div>
-                <div className="text-emerald-100">Active Users</div>
-              </div>
-              <div className="bg-white/10 rounded-xl p-6">
-                <div className="text-3xl font-bold">99%</div>
-                <div className="text-emerald-100">Success Rate</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// I'll continue with more components in the next part due to length limitations...
-
-// Main App Component
-function App() {
-  const { user, userType } = useAuth();
-
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/browse" element={<BrowseFreelancersPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/service/:id" element={<ServiceDetailPage />} />
-          <Route path="/freelancer/:id" element={<FreelancerProfilePage />} />
-          <Route path="/post-job" element={<PostJobPage />} />
-          <Route path="/messages" element={<MessagesPage />} />
-          <Route path="/how-it-works" element={<HowItWorksPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route 
-            path="/dashboard" 
-            element={
-              user ? (
-                userType === "freelancer" ? <FreelancerDashboard /> : <ClientDashboard />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            } 
-          />
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
-}
-
-// Browse Freelancers Page
-const BrowseFreelancersPage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [priceRange, setPriceRange] = useState([0, 100]);
-  const [sortBy, setSortBy] = useState("rating");
-
-  const categories = ["all", "development", "design", "writing", "marketing", "video", "music", "business"];
-
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <Navigation />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">Find Talented Freelancers</h1>
-          <p className="text-xl text-slate-600">Browse thousands of skilled professionals ready to work on your project</p>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-          <div className="grid md:grid-cols-4 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
-              <Input
-                placeholder="Search freelancers..."
-                className="pl-10"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <select 
-              className="border border-slate-300 rounded-md px-3 py-2"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              {categories.map(cat => (
-                <option key={cat} value={cat}>{cat === 'all' ? 'All Categories' : cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
-              ))}
-            </select>
-            <select 
-              className="border border-slate-300 rounded-md px-3 py-2"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-            >
-              <option value="rating">Highest Rated</option>
-              <option value="price">Lowest Price</option>
-              <option value="recent">Most Recent</option>
-            </select>
-            <Button className="bg-emerald-600 hover:bg-emerald-700">
-              <Filter className="h-4 w-4 mr-2" />
-              Apply Filters
-            </Button>
-          </div>
-        </div>
-
-        {/* Freelancers Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mockFreelancers.map((freelancer) => (
-            <Link key={freelancer.id} to={`/freelancer/${freelancer.id}`}>
-              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6">
-                  <div className="text-center mb-6">
-                    <Avatar className="w-20 h-20 mx-auto mb-4">
-                      <AvatarImage src={freelancer.profileImage} alt={freelancer.name} />
-                      <AvatarFallback>{freelancer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
-                    <h3 className="font-bold text-slate-900 text-lg">{freelancer.name}</h3>
-                    <p className="text-slate-600 mb-2">{freelancer.title}</p>
-                    <div className="flex items-center justify-center space-x-1 mb-2">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-medium">{freelancer.rating}</span>
-                      <span className="text-slate-500 text-sm">({freelancer.reviews} reviews)</span>
-                    </div>
-                    <div className="flex items-center justify-center text-sm text-slate-600">
-                      <MapPin className="h-4 w-4 mr-1" />
-                      {freelancer.location}
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap gap-1">
-                      {freelancer.skills.slice(0, 3).map((skill) => (
-                        <Badge key={skill} variant="secondary" className="text-xs">
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                    
-                    <div className="flex justify-between items-center pt-4 border-t">
-                      <div>
-                        <span className="text-sm text-slate-600">Starting at</span>
-                        <div className="font-bold text-emerald-600 text-lg">${freelancer.hourlyRate}/hr</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm text-slate-600">{freelancer.completedProjects} projects</div>
-                        <div className="text-sm text-emerald-600">{freelancer.availability}</div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Services Page
-const ServicesPage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <Navigation />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">Browse Services</h1>
-          <p className="text-xl text-slate-600">Discover services from talented freelancers worldwide</p>
-        </div>
-
-        {/* Search Bar */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-          <div className="flex gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
-              <Input
-                placeholder="What service are you looking for?"
-                className="pl-10 h-12"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <Button className="h-12 px-8 bg-emerald-600 hover:bg-emerald-700">
-              Search
-            </Button>
-          </div>
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {mockServices.map((service) => (
-            <Link key={service.id} to={`/service/${service.id}`}>
-              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="aspect-video bg-slate-200 overflow-hidden rounded-t-lg">
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardContent className="p-4">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <Avatar className="w-6 h-6">
-                      <AvatarImage src={mockFreelancers.find(f => f.name === service.freelancer)?.profileImage} />
-                      <AvatarFallback className="text-xs">{service.freelancer.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
-                    <span className="text-xs text-slate-600">{service.freelancer}</span>
-                  </div>
-                  
-                  <h3 className="font-medium text-slate-900 line-clamp-2 mb-3 text-sm">
-                    {service.title}
-                  </h3>
-                  
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                      <span className="text-xs font-medium">{service.rating}</span>
-                      <span className="text-xs text-slate-500">({service.reviews})</span>
-                    </div>
-                    <Badge variant="secondary" className="text-xs">
-                      {service.category}
-                    </Badge>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <div className="font-bold text-slate-900">From ${service.price}</div>
-                      <div className="text-xs text-slate-500">{service.deliveryTime}</div>
-                    </div>
-                    <Heart className="h-4 w-4 text-slate-400 hover:text-red-500 cursor-pointer" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Enhanced Service Detail Page with Glassmorphism and Comprehensive Information
-const ServiceDetailPage = () => {
-  const { id } = useParams();
-  const service = mockServices.find(s => s.id === parseInt(id));
-  const freelancer = mockFreelancers.find(f => f.name === service?.freelancer);
-
-  const [activeTab, setActiveTab] = useState('overview');
-  const [reviews] = useState([
-    { id: 1, author: "John Doe", rating: 5, comment: "Excellent work! Delivered exactly what was promised and on time.", date: "2025-01-20", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" },
-    { id: 2, author: "Sarah Wilson", rating: 5, comment: "Very professional and creative. Will definitely work with them again.", date: "2025-01-15", avatar: "https://images.unsplash.com/photo-1494790108755-2616b2e4c6f4?w=100&h=100&fit=crop&crop=face" },
-    { id: 3, author: "Mike Chen", rating: 4, comment: "Good quality work. Minor revisions needed but overall satisfied.", date: "2025-01-10", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" }
-  ]);
-
-  const [projectTimeline] = useState([
-    { phase: "Requirements Analysis", duration: "1-2 days", description: "Understanding your needs and project scope" },
-    { phase: "Design & Planning", duration: "2-3 days", description: "Creating wireframes and technical specifications" },
-    { phase: "Development", duration: "3-4 days", description: "Building the solution with modern technologies" },
-    { phase: "Testing & Delivery", duration: "1 day", description: "Quality assurance and final delivery" }
-  ]);
-
-  if (!service) return <div>Service not found</div>;
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-blue-50 to-purple-50 relative overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/30 to-slate-50/30"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-blue-50/50 to-purple-50/50"></div>
       <div className="absolute inset-0" style={{
-        backgroundImage: `radial-gradient(circle at 30px 30px, rgba(148, 163, 184, 0.1) 1px, transparent 0)`,
-        backgroundSize: '60px 60px'
-      }}></div>
-      
-      {/* Enhanced Navigation */}
-      <nav className="bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">FreelanceHub</h1>
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link to="/services">
-                <Button variant="ghost" className="bg-white/20 backdrop-blur-sm hover:bg-white/30">
-                  ← Back to Services
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            {/* Service Header */}
-            <div className="bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-blue-500/10 border border-white/30 overflow-hidden mb-8">
-              <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 relative overflow-hidden">
-                <img 
-                  src={service.image} 
-                  alt={service.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                <div className="absolute bottom-4 left-4">
-                  <Badge className="bg-white/90 backdrop-blur-sm text-slate-800 shadow-lg">
-                    {service.category}
-                  </Badge>
-                </div>
-              </div>
-              
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex-1">
-                    <h1 className="text-3xl font-bold text-slate-900 mb-4 leading-tight">{service.title}</h1>
-                    <div className="flex items-center space-x-4 mb-4">
-                      <div className="flex items-center space-x-2">
-                        <Avatar className="w-8 h-8">
-                          <AvatarImage src={freelancer?.profileImage} alt={freelancer?.name} />
-                          <AvatarFallback>{freelancer?.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                        </Avatar>
-                        <span className="font-medium text-slate-700">{service.freelancer}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium text-lg">{service.rating}</span>
-                        <span className="text-slate-500">({service.reviews} reviews)</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button variant="outline" size="sm" className="bg-white/50 backdrop-blur-sm border-white/30">
-                      <Heart className="h-4 w-4 mr-2" />
-                      Save
-                    </Button>
-                    <Button variant="outline" size="sm" className="bg-white/50 backdrop-blur-sm border-white/30">
-                      <Share2 className="h-4 w-4 mr-2" />
-                      Share
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Enhanced Tabs */}
-                <div className="border-b border-white/20 mb-6">
-                  <div className="flex space-x-8">
-                    {['overview', 'timeline', 'reviews', 'portfolio'].map((tab) => (
-                      <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`py-3 px-1 text-sm font-medium capitalize transition-colors border-b-2 ${
-                          activeTab === tab
-                            ? 'border-blue-500 text-blue-600'
-                            : 'border-transparent text-slate-600 hover:text-slate-800'
-                        }`}
-                      >
-                        {tab}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tab Content */}
-                {activeTab === 'overview' && (
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-900 mb-4">Service Description</h3>
-                      <p className="text-slate-700 text-lg leading-relaxed mb-6">
-                        {service.description}
-                      </p>
-                      <div className="bg-white/30 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                        <h4 className="font-semibold text-slate-900 mb-3">What You'll Get:</h4>
-                        <ul className="space-y-2 text-slate-700">
-                          <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Complete source code and documentation</li>
-                          <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Responsive design for all devices</li>
-                          <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />3 rounds of revisions included</li>
-                          <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />30 days of post-delivery support</li>
-                        </ul>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-900 mb-4">Technologies & Skills</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {service.tags.concat(['MongoDB', 'API Integration', 'Testing']).map((tag) => (
-                          <Badge key={tag} variant="secondary" className="px-3 py-1 bg-white/40 backdrop-blur-sm">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'timeline' && (
-                  <div className="space-y-6">
-                    <h3 className="text-xl font-bold text-slate-900 mb-4">Project Timeline</h3>
-                    <div className="space-y-4">
-                      {projectTimeline.map((phase, index) => (
-                        <div key={index} className="bg-white/30 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                          <div className="flex items-start space-x-4">
-                            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                              {index + 1}
-                            </div>
-                            <div className="flex-1">
-                              <h4 className="font-semibold text-slate-900 mb-1">{phase.phase}</h4>
-                              <p className="text-slate-600 mb-2">{phase.description}</p>
-                              <Badge variant="outline" className="bg-white/50">
-                                <Clock className="h-3 w-3 mr-1" />
-                                {phase.duration}
-                              </Badge>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'reviews' && (
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-xl font-bold text-slate-900">Client Reviews</h3>
-                      <div className="flex items-center space-x-2">
-                        <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium text-lg">{service.rating}</span>
-                        <span className="text-slate-500">({service.reviews} reviews)</span>
-                      </div>
-                    </div>
-                    <div className="space-y-4">
-                      {reviews.map((review) => (
-                        <div key={review.id} className="bg-white/30 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                          <div className="flex items-start space-x-4">
-                            <Avatar className="w-10 h-10">
-                              <AvatarImage src={review.avatar} alt={review.author} />
-                              <AvatarFallback>{review.author.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                            </Avatar>
-                            <div className="flex-1">
-                              <div className="flex items-center justify-between mb-2">
-                                <h4 className="font-semibold text-slate-900">{review.author}</h4>
-                                <span className="text-sm text-slate-500">{review.date}</span>
-                              </div>
-                              <div className="flex items-center mb-2">
-                                {[...Array(review.rating)].map((_, i) => (
-                                  <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                ))}
-                              </div>
-                              <p className="text-slate-700">{review.comment}</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'portfolio' && (
-                  <div className="space-y-6">
-                    <h3 className="text-xl font-bold text-slate-900 mb-4">Related Work</h3>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {freelancer?.portfolio.map((item, index) => (
-                        <div key={index} className="group cursor-pointer">
-                          <div className="aspect-video bg-slate-200 rounded-xl overflow-hidden mb-3">
-                            <img 
-                              src={item.image} 
-                              alt={item.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                          <h4 className="font-medium text-slate-900">{item.title}</h4>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          
-          {/* Enhanced Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-purple-500/10 border border-white/30 sticky top-24 overflow-hidden">
-              <div className="p-6">
-                <div className="text-center mb-6">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-                    From ${service.price}
-                  </div>
-                  <div className="text-slate-600 flex items-center justify-center">
-                    <Clock className="h-4 w-4 mr-1" />
-                    Delivery in {service.deliveryTime}
-                  </div>
-                </div>
-                
-                <div className="space-y-4 mb-6">
-                  <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-slate-600">Package includes:</span>
-                    </div>
-                    <ul className="space-y-1 text-sm text-slate-700">
-                      <li className="flex items-center"><CheckCircle className="h-3 w-3 text-green-500 mr-2" />Source files</li>
-                      <li className="flex items-center"><CheckCircle className="h-3 w-3 text-green-500 mr-2" />3 Revisions</li>
-                      <li className="flex items-center"><CheckCircle className="h-3 w-3 text-green-500 mr-2" />Commercial use</li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <div className="space-y-3 mb-6">
-                  <Button className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white text-lg shadow-lg">
-                    Order Now
-                  </Button>
-                  <Button className="w-full h-12 bg-white/30 backdrop-blur-sm hover:bg-white/40 border border-white/30">
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    Contact Seller
-                  </Button>
-                </div>
-                
-                <div className="pt-6 border-t border-white/20">
-                  <div className="flex items-center justify-center space-x-4 text-sm text-slate-600">
-                    <div className="flex items-center">
-                      <Shield className="h-4 w-4 mr-1 text-green-500" />
-                      Money-back guarantee
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Freelancer Profile Page
-const FreelancerProfilePage = () => {
-  const { id } = useParams();
-  const freelancer = mockFreelancers.find(f => f.id === parseInt(id));
-
-  if (!freelancer) return <div>Freelancer not found</div>;
-
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <Navigation />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Profile */}
-          <div className="lg:col-span-2">
-            <Card className="mb-8">
-              <CardContent className="p-8">
-                <div className="flex items-start space-x-6 mb-8">
-                  <Avatar className="w-24 h-24">
-                    <AvatarImage src={freelancer.profileImage} alt={freelancer.name} />
-                    <AvatarFallback className="text-2xl">{freelancer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <h1 className="text-3xl font-bold text-slate-900 mb-2">{freelancer.name}</h1>
-                    <p className="text-xl text-slate-600 mb-4">{freelancer.title}</p>
-                    <div className="flex items-center space-x-4 mb-4">
-                      <div className="flex items-center">
-                        <Star className="h-5 w-5 fill-yellow-400 text-yellow-400 mr-1" />
-                        <span className="font-medium text-lg">{freelancer.rating}</span>
-                        <span className="text-slate-500 ml-1">({freelancer.reviews} reviews)</span>
-                      </div>
-                      <div className="flex items-center text-slate-600">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {freelancer.location}
-                      </div>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed">{freelancer.description}</p>
-                  </div>
-                </div>
-                
-                <div className="grid md:grid-cols-3 gap-6 mb-8">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-slate-900">{freelancer.completedProjects}</div>
-                    <div className="text-slate-600">Projects Completed</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-slate-900">{freelancer.responseTime}</div>
-                    <div className="text-slate-600">Response Time</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-emerald-600">{freelancer.availability}</div>
-                    <div className="text-slate-600">Availability</div>
-                  </div>
-                </div>
-                
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-4">Skills</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {freelancer.skills.map((skill) => (
-                        <Badge key={skill} variant="secondary" className="px-3 py-1">
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-4">Languages</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {freelancer.languages.map((language) => (
-                        <Badge key={language} variant="outline" className="px-3 py-1">
-                          {language}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Portfolio */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Portfolio</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {freelancer.portfolio.map((item, index) => (
-                    <div key={index} className="group cursor-pointer">
-                      <div className="aspect-video bg-slate-200 rounded-lg overflow-hidden mb-3">
-                        <img 
-                          src={item.image} 
-                          alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <h4 className="font-medium text-slate-900">{item.title}</h4>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <Card className="sticky top-24">
-              <CardContent className="p-6">
-                <div className="text-center mb-6">
-                  <div className="text-3xl font-bold text-emerald-600 mb-2">${freelancer.hourlyRate}/hr</div>
-                  <div className="text-slate-600">Starting rate</div>
-                </div>
-                
-                <div className="space-y-3 mb-6">
-                  <Button className="w-full h-12 bg-emerald-600 hover:bg-emerald-700">
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    Contact Me
-                  </Button>
-                  <Button variant="outline" className="w-full h-12">
-                    <Heart className="h-4 w-4 mr-2" />
-                    Save Profile
-                  </Button>
-                </div>
-                
-                <div className="space-y-4 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">Response time:</span>
-                    <span className="font-medium">{freelancer.responseTime}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">Availability:</span>
-                    <span className="font-medium text-emerald-600">{freelancer.availability}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">Member since:</span>
-                    <span className="font-medium">Jan 2022</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">Last seen:</span>
-                    <span className="font-medium">2 hours ago</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Enhanced Client Dashboard with Glassmorphism
-const ClientDashboard = () => {
-  const { user } = useAuth();
-  const [activeProjects] = useState([
-    { id: 1, title: "E-commerce Website Development", freelancer: "Sarah Johnson", progress: 85, status: "In Progress", budget: 2500, deadline: "2025-02-15" },
-    { id: 2, title: "Mobile App UI/UX Design", freelancer: "Michael Chen", progress: 100, status: "Completed", budget: 1800, deadline: "2025-01-28" },
-    { id: 3, title: "Brand Identity Package", freelancer: "Emily Rodriguez", progress: 60, status: "In Progress", budget: 1200, deadline: "2025-02-20" },
-    { id: 4, title: "Digital Marketing Campaign", freelancer: "David Kim", progress: 40, status: "In Progress", budget: 3000, deadline: "2025-02-28" }
-  ]);
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-indigo-50/50 to-purple-50/50"></div>
-      <div className="absolute inset-0" style={{
-        backgroundImage: `radial-gradient(circle at 20px 20px, rgba(224, 231, 255, 0.3) 1px, transparent 0)`,
-        backgroundSize: '40px 40px'
-      }}></div>
-      
-      {/* Enhanced Navigation with Glassmorphism */}
-      <nav className="bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-lg shadow-blue-500/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-8">
-              <Link to="/">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">FreelanceHub</h1>
-              </Link>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
-                <User className="h-4 w-4 text-blue-600" />
-                <span className="text-slate-700 font-medium">{user?.name}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
-        <div className="mb-12 text-center">
-          <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-blue-500/20 border border-white/30">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-              Welcome back, {user?.name}! 👋
-            </h1>
-            <p className="text-slate-600 text-lg">Manage your projects and discover amazing talent</p>
-            <div className="mt-6 flex justify-center">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-1">
-                <div className="bg-white rounded-full px-6 py-2">
-                  <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Client Dashboard
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Cards with Glassmorphism */}
-        <div className="grid md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-blue-500/10 border border-white/30 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Briefcase className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-slate-700 mb-2">Active Projects</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">5</p>
-              <p className="text-sm text-slate-500 mt-1">+2 this month</p>
-            </div>
-          </div>
-
-          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-green-500/10 border border-white/30 hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 group">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <DollarSign className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-slate-700 mb-2">Total Investment</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">$12.5K</p>
-              <p className="text-sm text-slate-500 mt-1">Return: 250%</p>
-            </div>
-          </div>
-
-          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-purple-500/10 border border-white/30 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 group">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Users className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-slate-700 mb-2">Freelancers Hired</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">23</p>
-              <p className="text-sm text-slate-500 mt-1">Across 12 countries</p>
-            </div>
-          </div>
-
-          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-amber-500/10 border border-white/30 hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300 group">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Award className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-slate-700 mb-2">Success Rate</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">98%</p>
-              <p className="text-sm text-slate-500 mt-1">Industry leading</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Active Projects */}
-          <div className="lg:col-span-2">
-            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-blue-500/10 border border-white/30 overflow-hidden">
-              <div className="p-6 border-b border-white/20">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-slate-800">Active Projects</h2>
-                  <Badge className="bg-blue-100/80 text-blue-800 backdrop-blur-sm">4 In Progress</Badge>
-                </div>
-              </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  {activeProjects.map((project) => (
-                    <div key={project.id} className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/40 transition-all duration-300">
-                      <div className="flex justify-between items-start mb-3">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-slate-800 mb-1">{project.title}</h4>
-                          <p className="text-sm text-slate-600">by {project.freelancer}</p>
-                        </div>
-                        <div className="text-right">
-                          <Badge className={`${project.status === 'Completed' ? 'bg-green-100/80 text-green-800' : 'bg-yellow-100/80 text-yellow-800'} backdrop-blur-sm`}>
-                            {project.status}
-                          </Badge>
-                          <p className="text-sm text-slate-600 mt-1">${project.budget}</p>
-                        </div>
-                      </div>
-                      <div className="mb-2">
-                        <div className="flex justify-between text-sm text-slate-600 mb-1">
-                          <span>Progress</span>
-                          <span>{project.progress}%</span>
-                        </div>
-                        <div className="w-full bg-white/30 rounded-full h-2">
-                          <div 
-                            className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
-                            style={{ width: `${project.progress}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center text-xs text-slate-500">
-                        <span>Due: {project.deadline}</span>
-                        <div className="flex space-x-2">
-                          <MessageSquare className="h-3 w-3" />
-                          <Eye className="h-3 w-3" />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Actions & Recent Activity */}
-          <div className="space-y-6">
-            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-purple-500/10 border border-white/30">
-              <div className="p-6 border-b border-white/20">
-                <h2 className="text-xl font-bold text-slate-800">Quick Actions</h2>
-              </div>
-              <div className="p-6">
-                <div className="space-y-3">
-                  <Link to="/post-job">
-                    <Button className="w-full justify-start bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Post New Project
-                    </Button>
-                  </Link>
-                  <Link to="/browse">
-                    <Button className="w-full justify-start bg-white/30 backdrop-blur-sm hover:bg-white/40 text-slate-700 border border-white/30">
-                      <Search className="h-4 w-4 mr-2" />
-                      Find Freelancers
-                    </Button>
-                  </Link>
-                  <Link to="/messages">
-                    <Button className="w-full justify-start bg-white/30 backdrop-blur-sm hover:bg-white/40 text-slate-700 border border-white/30">
-                      <MessageSquare className="h-4 w-4 mr-2" />
-                      Messages (3)
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Activity */}
-            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-green-500/10 border border-white/30">
-              <div className="p-6 border-b border-white/20">
-                <h2 className="text-xl font-bold text-slate-800">Recent Activity</h2>
-              </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <div className="flex-1">
-                      <p className="text-sm text-slate-700">Project completed by Michael Chen</p>
-                      <p className="text-xs text-slate-500">2 hours ago</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <div className="flex-1">
-                      <p className="text-sm text-slate-700">New proposal received</p>
-                      <p className="text-xs text-slate-500">5 hours ago</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <div className="flex-1">
-                      <p className="text-sm text-slate-700">Payment processed for Sarah Johnson</p>
-                      <p className="text-xs text-slate-500">1 day ago</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const FreelancerDashboard = () => {
-  const { user } = useAuth();
-  const [recentOrders] = useState([
-    { id: 1, title: "E-commerce Platform Development", client: "TechCorp Inc.", earnings: 2800, status: "Completed", rating: 5, deadline: "2025-01-25" },
-    { id: 2, title: "Mobile App UI Design", client: "StartupXYZ", earnings: 1500, status: "In Progress", rating: null, deadline: "2025-02-10" },
-    { id: 3, title: "Brand Identity Package", client: "Creative Co.", earnings: 900, status: "In Review", rating: null, deadline: "2025-02-05" },
-    { id: 4, title: "SEO Content Writing", client: "Digital Agency", earnings: 600, status: "Completed", rating: 4.8, deadline: "2025-01-30" }
-  ]);
-
-  const [skills] = useState([
-    { name: "React Development", level: 95, projects: 45 },
-    { name: "UI/UX Design", level: 88, projects: 32 },
-    { name: "Node.js", level: 82, projects: 28 },
-    { name: "Python", level: 78, projects: 25 }
-  ]);
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-green-50 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-teal-50/50 to-green-50/50"></div>
-      <div className="absolute inset-0" style={{
-        backgroundImage: `radial-gradient(circle at 25px 25px, rgba(209, 250, 229, 0.4) 2px, transparent 0)`,
+        backgroundImage: `radial-gradient(circle at 25px 25px, rgba(16, 185, 129, 0.1) 2px, transparent 0)`,
         backgroundSize: '50px 50px'
       }}></div>
-      
-      {/* Enhanced Navigation with Glassmorphism */}
-      <nav className="bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-lg shadow-emerald-500/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-8">
+
+      <div className="relative flex min-h-screen">
+        {/* Left Side - Form */}
+        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full">
+            {/* Header */}
+            <div className="text-center mb-8">
               <Link to="/">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">FreelanceHub</h1>
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-4">FreelanceHub</h1>
+              </Link>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">Welcome back!</h2>
+              <p className="text-slate-600">Sign in to your account to continue your journey</p>
+            </div>
+
+            {/* Login Form Card */}
+            <div className="bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-emerald-500/20 p-8 border border-white/30">
+              {/* User Type Selection */}
+              <div className="mb-8">
+                <Tabs value={formData.userType} className="w-full">
+                  <TabsList className="grid w-full grid-cols-2 h-12 bg-white/30 backdrop-blur-sm">
+                    <TabsTrigger 
+                      value="client" 
+                      onClick={() => setFormData({...formData, userType: "client"})}
+                      className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white font-medium transition-all duration-300"
+                    >
+                      <Briefcase className="h-4 w-4 mr-2" />
+                      I'm a Client
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="freelancer" 
+                      onClick={() => setFormData({...formData, userType: "freelancer"})}
+                      className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white font-medium transition-all duration-300"
+                    >
+                      <User className="h-4 w-4 mr-2" />
+                      I'm a Freelancer
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+
+              <form onSubmit={handleLogin} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-3">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                    <Input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="pl-12 h-14 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500 text-lg"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-3">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <Shield className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                    <Input
+                      type="password"
+                      placeholder="Enter your password" 
+                      value={formData.password}
+                      onChange={(e) => setFormData({...formData, password: e.target.value})}
+                      className="pl-12 h-14 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500 text-lg"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Demo Credentials Notice */}
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 backdrop-blur-sm rounded-2xl p-4">
+                  <div className="flex items-start space-x-3">
+                    <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-semibold text-amber-800 mb-1">Demo Account</p>
+                      <p className="text-xs text-amber-700">
+                        Email: demo@example.com | Password: demo123
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <Button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="w-full h-14 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-lg font-semibold shadow-xl transition-all duration-300"
+                >
+                  {isLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <span>Signing In...</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2">
+                      <LogIn className="h-5 w-5" />
+                      <span>Sign In</span>
+                    </div>
+                  )}
+                </Button>
+              </form>
+
+              <div className="mt-8 text-center">
+                <p className="text-slate-600">
+                  Don't have an account?{' '}
+                  <Link to="/signup" className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">
+                    Sign up for free
+                  </Link>
+                </p>
+              </div>
+            </div>
+
+            {/* Back to Home */}
+            <div className="text-center mt-6">
+              <Link to="/" className="inline-flex items-center text-slate-600 hover:text-emerald-600 transition-colors">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Home
               </Link>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
-                <Zap className="h-4 w-4 text-emerald-600" />
-                <span className="text-slate-700 font-medium">{user?.name}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
-        <div className="mb-12 text-center">
-          <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-emerald-500/20 border border-white/30">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-4">
-              Welcome back, {user?.name}! 🚀
-            </h1>
-            <p className="text-slate-600 text-lg">Grow your freelance business and showcase your talent</p>
-            <div className="mt-6 flex justify-center">
-              <div className="bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full p-1">
-                <div className="bg-white rounded-full px-6 py-2">
-                  <span className="text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                    Freelancer Dashboard
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Stats Cards with Glassmorphism */}
-        <div className="grid md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-emerald-500/10 border border-white/30 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 group">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Grid3X3 className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-slate-700 mb-2">Active Gigs</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">8</p>
-              <p className="text-sm text-slate-500 mt-1">3 new this week</p>
-            </div>
-          </div>
-
-          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-green-500/10 border border-white/30 hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 group">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <TrendingUp className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-slate-700 mb-2">Monthly Revenue</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">$5.8K</p>
-              <p className="text-sm text-slate-500 mt-1">+38% from last month</p>
-            </div>
-          </div>
-
-          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-yellow-500/10 border border-white/30 hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-300 group">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Target className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-slate-700 mb-2">Projects Completed</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-amber-600 bg-clip-text text-transparent">127</p>
-              <p className="text-sm text-slate-500 mt-1">100% on-time delivery</p>
-            </div>
-          </div>
-
-          <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-6 shadow-xl shadow-orange-500/10 border border-white/30 hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-300 group">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Star className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-slate-700 mb-2">Client Rating</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">4.9</p>
-              <p className="text-sm text-slate-500 mt-1">Top 1% performer</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Recent Orders */}
-          <div className="lg:col-span-2">
-            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-emerald-500/10 border border-white/30 overflow-hidden">
-              <div className="p-6 border-b border-white/20">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-slate-800">Recent Projects</h2>
-                  <Badge className="bg-emerald-100/80 text-emerald-800 backdrop-blur-sm">4 Active</Badge>
+        {/* Right Side - Hero */}
+        <div className="hidden lg:flex lg:flex-1 items-center justify-center p-12">
+          <div className="max-w-lg text-center space-y-8">
+            <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/30">
+              <h3 className="text-4xl font-bold text-slate-900 mb-6">
+                {formData.userType === "freelancer" ? "Start your freelance journey" : "Find perfect talent"}
+              </h3>
+              <p className="text-slate-600 text-xl leading-relaxed mb-8">
+                {formData.userType === "freelancer" 
+                  ? "Join thousands of freelancers building successful careers and working with amazing clients worldwide"
+                  : "Connect with skilled professionals and bring your ideas to life with our global talent pool"
+                }
+              </p>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 text-white">
+                  <div className="text-3xl font-bold mb-2">50K+</div>
+                  <div className="text-emerald-100">Active Users</div>
                 </div>
-              </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  {recentOrders.map((order) => (
-                    <div key={order.id} className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/40 transition-all duration-300">
-                      <div className="flex justify-between items-start mb-3">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-slate-800 mb-1">{order.title}</h4>
-                          <p className="text-sm text-slate-600">for {order.client}</p>
-                        </div>
-                        <div className="text-right">
-                          <Badge className={`${order.status === 'Completed' ? 'bg-green-100/80 text-green-800' : order.status === 'In Progress' ? 'bg-blue-100/80 text-blue-800' : 'bg-yellow-100/80 text-yellow-800'} backdrop-blur-sm`}>
-                            {order.status}
-                          </Badge>
-                          <p className="text-sm font-bold text-emerald-600 mt-1">${order.earnings}</p>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center text-xs text-slate-500">
-                        <span>Due: {order.deadline}</span>
-                        <div className="flex items-center space-x-4">
-                          {order.rating && (
-                            <div className="flex items-center space-x-1">
-                              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                              <span>{order.rating}</span>
-                            </div>
-                          )}
-                          <div className="flex space-x-2">
-                            <MessageSquare className="h-3 w-3" />
-                            <Edit className="h-3 w-3" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Actions & Skills */}
-          <div className="space-y-6">
-            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-teal-500/10 border border-white/30">
-              <div className="p-6 border-b border-white/20">
-                <h2 className="text-xl font-bold text-slate-800">Quick Actions</h2>
-              </div>
-              <div className="p-6">
-                <div className="space-y-3">
-                  <Button className="w-full justify-start bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create New Gig
-                  </Button>
-                  <Button className="w-full justify-start bg-white/30 backdrop-blur-sm hover:bg-white/40 text-slate-700 border border-white/30">
-                    <Edit className="h-4 w-4 mr-2" />
-                    Update Profile
-                  </Button>
-                  <Button className="w-full justify-start bg-white/30 backdrop-blur-sm hover:bg-white/40 text-slate-700 border border-white/30">
-                    <BarChart3 className="h-4 w-4 mr-2" />
-                    View Analytics
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Top Skills */}
-            <div className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-xl shadow-green-500/10 border border-white/30">
-              <div className="p-6 border-b border-white/20">
-                <h2 className="text-xl font-bold text-slate-800">Top Skills</h2>
-              </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  {skills.map((skill, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-slate-700">{skill.name}</span>
-                        <span className="text-xs text-slate-500">{skill.projects} projects</span>
-                      </div>
-                      <div className="w-full bg-white/30 rounded-full h-2">
-                        <div 
-                          className="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${skill.level}%` }}
-                        ></div>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs text-emerald-600 font-medium">{skill.level}%</span>
-                      </div>
-                    </div>
-                  ))}
+                <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 text-white">
+                  <div className="text-3xl font-bold mb-2">99%</div>
+                  <div className="text-blue-100">Success Rate</div>
                 </div>
               </div>
             </div>
@@ -2021,52 +980,567 @@ const FreelancerDashboard = () => {
   );
 };
 
-// Other placeholder pages
-const PostJobPage = () => (
-  <div className="min-h-screen bg-slate-50">
-    <Navigation />
-    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-      <h1 className="text-4xl font-bold text-slate-900 mb-4">Post a Job</h1>
-      <p className="text-xl text-slate-600">Create a project and find the perfect freelancer</p>
-    </div>
-  </div>
-);
+// Modern Signup Page Component
+const SignupPage = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    userType: "client",
+    // Basic Info
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    // Client specific
+    companyName: "",
+    companySize: "",
+    industry: "",
+    // Freelancer specific
+    title: "",
+    skills: [],
+    experience: "",
+    hourlyRate: "",
+    bio: "",
+    portfolio: "",
+    education: "",
+    certifications: ""
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-const MessagesPage = () => (
-  <div className="min-h-screen bg-slate-50">
-    <Navigation />
-    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-      <h1 className="text-4xl font-bold text-slate-900 mb-4">Messages</h1>
-      <p className="text-xl text-slate-600">Communicate with your clients and freelancers</p>
-    </div>
-  </div>
-);
+  const skillOptions = [
+    "JavaScript", "React", "Node.js", "Python", "Java", "PHP", "C++",
+    "UI/UX Design", "Graphic Design", "Figma", "Adobe Creative Suite",
+    "Content Writing", "SEO", "Digital Marketing", "Social Media",
+    "Video Editing", "Photography", "3D Modeling", "Animation"
+  ];
 
-const HowItWorksPage = () => (
-  <div className="min-h-screen bg-slate-50">
-    <Navigation />
-    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-      <h1 className="text-4xl font-bold text-slate-900 mb-4">How It Works</h1>
-      <p className="text-xl text-slate-600">Learn how to get the most out of FreelanceHub</p>
-    </div>
-  </div>
-);
+  const handleSkillToggle = (skill) => {
+    setFormData(prev => ({
+      ...prev,
+      skills: prev.skills.includes(skill) 
+        ? prev.skills.filter(s => s !== skill)
+        : [...prev.skills, skill]
+    }));
+  };
 
-const AboutPage = () => (
-  <div className="min-h-screen bg-slate-50">
-    <Navigation />
-    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-      <h1 className="text-4xl font-bold text-slate-900 mb-4">About FreelanceHub</h1>
-      <p className="text-xl text-slate-600">The world's leading freelance marketplace</p>
-    </div>
-  </div>
-);
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      const userData = {
+        id: 1,
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        userType: formData.userType
+      };
+      login(userData, formData.userType);
+      navigate('/dashboard');
+      setIsLoading(false);
+    }, 1500);
+  };
 
-// Export App wrapped with AuthProvider
-export default function AppWithAuth() {
+  const nextStep = () => setStep(step + 1);
+  const prevStep = () => setStep(step - 1);
+
   return (
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-blue-50/50 to-purple-50/50"></div>
+      <div className="absolute inset-0" style={{
+        backgroundImage: `radial-gradient(circle at 25px 25px, rgba(16, 185, 129, 0.1) 2px, transparent 0)`,
+        backgroundSize: '50px 50px'
+      }}></div>
+
+      <div className="relative flex min-h-screen">
+        {/* Left Side - Form */}
+        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+          <div className="max-w-2xl w-full">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <Link to="/">
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-4">FreelanceHub</h1>
+              </Link>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">Join FreelanceHub</h2>
+              <p className="text-slate-600">Create your account and start your journey</p>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="mb-8">
+              <div className="flex items-center justify-center space-x-4 mb-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex items-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300 ${
+                      step >= i 
+                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg' 
+                        : 'bg-white/30 backdrop-blur-sm text-slate-400 border border-white/30'
+                    }`}>
+                      {i}
+                    </div>
+                    {i < 3 && (
+                      <div className={`w-12 h-1 mx-2 rounded-full transition-all duration-300 ${
+                        step > i ? 'bg-gradient-to-r from-emerald-600 to-teal-600' : 'bg-white/30'
+                      }`} />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="text-center text-sm text-slate-600">
+                Step {step} of 3: {
+                  step === 1 ? 'Account Type' : 
+                  step === 2 ? 'Basic Information' : 
+                  'Professional Details'
+                }
+              </div>
+            </div>
+
+            {/* Signup Form Card */}
+            <div className="bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-emerald-500/20 p-8 border border-white/30">
+              <form onSubmit={handleSignup}>
+                {/* Step 1: Account Type */}
+                {step === 1 && (
+                  <div className="space-y-8">
+                    <div className="text-center">
+                      <h3 className="text-2xl font-bold text-slate-900 mb-4">Choose Your Path</h3>
+                      <p className="text-slate-600">Are you looking to hire talent or offer your services?</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div 
+                        onClick={() => setFormData({...formData, userType: "client"})}
+                        className={`cursor-pointer rounded-2xl p-8 border-2 transition-all duration-300 ${
+                          formData.userType === "client" 
+                            ? 'border-emerald-500 bg-emerald-50/50 backdrop-blur-sm shadow-xl' 
+                            : 'border-white/30 bg-white/30 backdrop-blur-sm hover:border-emerald-300'
+                        }`}
+                      >
+                        <div className="text-center">
+                          <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4 transition-all duration-300 ${
+                            formData.userType === "client" 
+                              ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg' 
+                              : 'bg-white/40 backdrop-blur-sm'
+                          }`}>
+                            <Briefcase className={`h-10 w-10 ${formData.userType === "client" ? 'text-white' : 'text-slate-600'}`} />
+                          </div>
+                          <h4 className="text-xl font-bold text-slate-900 mb-2">I'm a Client</h4>
+                          <p className="text-slate-600 text-sm">I want to hire freelancers for my projects</p>
+                        </div>
+                      </div>
+
+                      <div 
+                        onClick={() => setFormData({...formData, userType: "freelancer"})}
+                        className={`cursor-pointer rounded-2xl p-8 border-2 transition-all duration-300 ${
+                          formData.userType === "freelancer" 
+                            ? 'border-emerald-500 bg-emerald-50/50 backdrop-blur-sm shadow-xl' 
+                            : 'border-white/30 bg-white/30 backdrop-blur-sm hover:border-emerald-300'
+                        }`}
+                      >
+                        <div className="text-center">
+                          <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4 transition-all duration-300 ${
+                            formData.userType === "freelancer" 
+                              ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg' 
+                              : 'bg-white/40 backdrop-blur-sm'
+                          }`}>
+                            <User className={`h-10 w-10 ${formData.userType === "freelancer" ? 'text-white' : 'text-slate-600'}`} />
+                          </div>
+                          <h4 className="text-xl font-bold text-slate-900 mb-2">I'm a Freelancer</h4>
+                          <p className="text-slate-600 text-sm">I want to offer my services and find work</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Button 
+                      type="button"
+                      onClick={nextStep}
+                      className="w-full h-14 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-lg font-semibold shadow-xl"
+                    >
+                      Continue
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </div>
+                )}
+
+                {/* Step 2: Basic Information */}
+                {step === 2 && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold text-slate-900 mb-2">Basic Information</h3>
+                      <p className="text-slate-600">Tell us about yourself</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">First Name</label>
+                        <Input
+                          placeholder="John"
+                          value={formData.firstName}
+                          onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                          className="h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Last Name</label>
+                        <Input
+                          placeholder="Doe"
+                          value={formData.lastName}
+                          onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                          className="h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                      <div className="relative">
+                        <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                        <Input
+                          type="email"
+                          placeholder="john@example.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({...formData, email: e.target.value})}
+                          className="pl-12 h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+                        <div className="relative">
+                          <Shield className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                          <Input
+                            type="password"
+                            placeholder="Create password"
+                            value={formData.password}
+                            onChange={(e) => setFormData({...formData, password: e.target.value})}
+                            className="pl-12 h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Confirm Password</label>
+                        <div className="relative">
+                          <Shield className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                          <Input
+                            type="password"
+                            placeholder="Confirm password"
+                            value={formData.confirmPassword}
+                            onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                            className="pl-12 h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Client-specific fields */}
+                    {formData.userType === "client" && (
+                      <>
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-2">Company Name (Optional)</label>
+                          <div className="relative">
+                            <Building2 className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                            <Input
+                              placeholder="Your company name"
+                              value={formData.companyName}
+                              onChange={(e) => setFormData({...formData, companyName: e.target.value})}
+                              className="pl-12 h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                            />
+                          </div>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">Company Size</label>
+                            <select 
+                              value={formData.companySize}
+                              onChange={(e) => setFormData({...formData, companySize: e.target.value})}
+                              className="w-full h-12 bg-white/30 backdrop-blur-sm border border-white/30 rounded-md px-4 focus:border-emerald-500 focus:outline-none"
+                            >
+                              <option value="">Select size</option>
+                              <option value="1-10">1-10 employees</option>
+                              <option value="11-50">11-50 employees</option>
+                              <option value="51-200">51-200 employees</option>
+                              <option value="200+">200+ employees</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">Industry</label>
+                            <select 
+                              value={formData.industry}
+                              onChange={(e) => setFormData({...formData, industry: e.target.value})}
+                              className="w-full h-12 bg-white/30 backdrop-blur-sm border border-white/30 rounded-md px-4 focus:border-emerald-500 focus:outline-none"
+                            >
+                              <option value="">Select industry</option>
+                              <option value="Technology">Technology</option>
+                              <option value="Healthcare">Healthcare</option>
+                              <option value="Finance">Finance</option>
+                              <option value="Education">Education</option>
+                              <option value="E-commerce">E-commerce</option>
+                              <option value="Other">Other</option>
+                            </select>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    <div className="flex space-x-4">
+                      <Button 
+                        type="button"
+                        onClick={prevStep}
+                        variant="outline"
+                        className="flex-1 h-12 bg-white/30 backdrop-blur-sm border-white/30 hover:bg-white/40"
+                      >
+                        <ArrowLeft className="mr-2 h-5 w-5" />
+                        Back
+                      </Button>
+                      <Button 
+                        type="button"
+                        onClick={nextStep}
+                        className="flex-1 h-12 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700"
+                      >
+                        Continue
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 3: Professional Details */}
+                {step === 3 && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                        {formData.userType === "freelancer" ? "Professional Profile" : "Project Requirements"}
+                      </h3>
+                      <p className="text-slate-600">
+                        {formData.userType === "freelancer" 
+                          ? "Showcase your skills and experience" 
+                          : "Help us understand what you're looking for"
+                        }
+                      </p>
+                    </div>
+
+                    {formData.userType === "freelancer" ? (
+                      <>
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-2">Professional Title</label>
+                          <Input
+                            placeholder="e.g., Full Stack Developer, UI/UX Designer"
+                            value={formData.title}
+                            onChange={(e) => setFormData({...formData, title: e.target.value})}
+                            className="h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-3">Skills (Select up to 10)</label>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-48 overflow-y-auto p-4 bg-white/20 backdrop-blur-sm rounded-xl border border-white/30">
+                            {skillOptions.map((skill) => (
+                              <div
+                                key={skill}
+                                onClick={() => formData.skills.length < 10 || formData.skills.includes(skill) ? handleSkillToggle(skill) : null}
+                                className={`cursor-pointer px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                                  formData.skills.includes(skill)
+                                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg'
+                                    : 'bg-white/40 backdrop-blur-sm text-slate-700 hover:bg-white/60'
+                                } ${formData.skills.length >= 10 && !formData.skills.includes(skill) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                              >
+                                {skill}
+                              </div>
+                            ))}
+                          </div>
+                          <p className="text-xs text-slate-500 mt-2">{formData.skills.length}/10 skills selected</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">Experience Level</label>
+                            <select 
+                              value={formData.experience}
+                              onChange={(e) => setFormData({...formData, experience: e.target.value})}
+                              className="w-full h-12 bg-white/30 backdrop-blur-sm border border-white/30 rounded-md px-4 focus:border-emerald-500 focus:outline-none"
+                              required
+                            >
+                              <option value="">Select level</option>
+                              <option value="Entry Level">Entry Level (0-2 years)</option>
+                              <option value="Intermediate">Intermediate (2-5 years)</option>
+                              <option value="Expert">Expert (5+ years)</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">Hourly Rate (USD)</label>
+                            <div className="relative">
+                              <DollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                              <Input
+                                type="number"
+                                placeholder="25"
+                                value={formData.hourlyRate}
+                                onChange={(e) => setFormData({...formData, hourlyRate: e.target.value})}
+                                className="pl-12 h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                                required
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-2">Professional Bio</label>
+                          <textarea
+                            placeholder="Describe your experience, expertise, and what makes you unique..."
+                            value={formData.bio}
+                            onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                            rows={4}
+                            className="w-full bg-white/30 backdrop-blur-sm border border-white/30 rounded-md px-4 py-3 focus:border-emerald-500 focus:outline-none resize-none"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-2">Portfolio URL (Optional)</label>
+                          <div className="relative">
+                            <Globe className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                            <Input
+                              placeholder="https://yourportfolio.com"
+                              value={formData.portfolio}
+                              onChange={(e) => setFormData({...formData, portfolio: e.target.value})}
+                              className="pl-12 h-12 bg-white/30 backdrop-blur-sm border-white/30 focus:border-emerald-500"
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-3">What type of projects are you looking to outsource?</label>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            {["Web Development", "Mobile Apps", "Design", "Content Writing", "Marketing", "Other"].map((type) => (
+                              <div
+                                key={type}
+                                className="p-4 bg-white/30 backdrop-blur-sm rounded-xl border border-white/30 hover:bg-white/40 cursor-pointer transition-all duration-200 text-center"
+                              >
+                                <span className="text-sm font-medium text-slate-700">{type}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-2">Typical Project Budget Range</label>
+                          <select 
+                            className="w-full h-12 bg-white/30 backdrop-blur-sm border border-white/30 rounded-md px-4 focus:border-emerald-500 focus:outline-none"
+                          >
+                            <option value="">Select budget range</option>
+                            <option value="Under $1,000">Under $1,000</option>
+                            <option value="$1,000 - $5,000">$1,000 - $5,000</option>
+                            <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                            <option value="$10,000+">$10,000+</option>
+                          </select>
+                        </div>
+                      </>
+                    )}
+
+                    <div className="flex space-x-4">
+                      <Button 
+                        type="button"
+                        onClick={prevStep}
+                        variant="outline"
+                        className="flex-1 h-12 bg-white/30 backdrop-blur-sm border-white/30 hover:bg-white/40"
+                      >
+                        <ArrowLeft className="mr-2 h-5 w-5" />
+                        Back
+                      </Button>
+                      <Button 
+                        type="submit"
+                        disabled={isLoading}
+                        className="flex-1 h-12 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700"
+                      >
+                        {isLoading ? (
+                          <div className="flex items-center space-x-2">
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            <span>Creating Account...</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center space-x-2">
+                            <UserPlus className="h-5 w-5" />
+                            <span>Create Account</span>
+                          </div>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </form>
+
+              {step === 1 && (
+                <div className="mt-8 text-center">
+                  <p className="text-slate-600">
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">
+                      Sign in here
+                    </Link>
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Back to Home */}
+            <div className="text-center mt-6">
+              <Link to="/" className="inline-flex items-center text-slate-600 hover:text-emerald-600 transition-colors">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Home
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Info */}
+        <div className="hidden lg:flex lg:flex-1 items-center justify-center p-12">
+          <div className="max-w-lg space-y-8">
+            <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/30">
+              <h3 className="text-3xl font-bold text-slate-900 mb-6">Join Our Community</h3>
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 mb-1">Verified Professionals</h4>
+                    <p className="text-slate-600">All freelancers are verified and rated by real clients</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Shield className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 mb-1">Secure Payments</h4>
+                    <p className="text-slate-600">Protected transactions with money-back guarantee</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Users className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 mb-1">24/7 Support</h4>
+                    <p className="text-slate-600">Get help whenever you need it from our support team</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+// Continue with other components in part 2 due to length limit...
