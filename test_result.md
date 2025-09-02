@@ -118,7 +118,7 @@ backend:
         comment: "Backend server running on port 8001, supervisorctl shows RUNNING status"
       - working: true
         agent: "testing"
-        comment: "Comprehensive backend testing completed successfully. All API endpoints working: GET /api/ (root), POST /api/status (create), GET /api/status (retrieve). MongoDB connection verified and data persistence working. Server logs show no errors. Backend is stable and responsive at https://freelance-hub-67.preview.emergentagent.com/api/"
+        comment: "Comprehensive backend testing completed successfully. All API endpoints working: GET /api/ (root), POST /api/status (create), GET /api/status (retrieve). MongoDB connection verified and data persistence working. Server logs show no errors. Backend is stable and responsive at https://pagerestore.preview.emergentagent.com/api/"
 
 frontend:
   - task: "Enhanced Client Dashboard with Glassmorphism"
