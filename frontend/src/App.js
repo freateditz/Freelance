@@ -773,19 +773,25 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log("Login form submitted"); // Debug log
     setIsLoading(true);
     
     // Simulate API call
     setTimeout(() => {
+      console.log("Login timeout callback executing"); // Debug log
       const userData = {
         id: 1,
         name: formData.userType === "freelancer" ? "John Freelancer" : "Jane Client",
         email: formData.email,
         userType: formData.userType
       };
+      console.log("About to call login with:", userData, formData.userType); // Debug log
       login(userData, formData.userType);
+      console.log("Login called, about to clear loading"); // Debug log
       setIsLoading(false); // Clear loading state first
+      console.log("About to navigate to dashboard"); // Debug log
       navigate('/dashboard'); // Then navigate
+      console.log("Navigation called"); // Debug log
     }, 1000);
   };
 
