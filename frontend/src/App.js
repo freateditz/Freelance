@@ -773,11 +773,10 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login form submitted - attempting immediate login"); // Debug log
     setIsLoading(true);
     
     try {
-      // Test immediate login without setTimeout first
+      // Immediate login without setTimeout for better UX
       const userData = {
         id: 1,
         name: formData.userType === "freelancer" ? "John Freelancer" : "Jane Client",
@@ -785,13 +784,9 @@ const LoginPage = () => {
         userType: formData.userType
       };
       
-      console.log("Calling login function...");
       login(userData, formData.userType);
-      console.log("Login function called, clearing loading state...");
       setIsLoading(false);
-      console.log("Navigating to dashboard...");
       navigate('/dashboard');
-      console.log("Navigation complete");
       
     } catch (error) {
       console.error("Error in handleLogin:", error);
