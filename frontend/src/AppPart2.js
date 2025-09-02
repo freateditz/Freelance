@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createContext, useContext } from "react";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./components/ui/card";
@@ -74,6 +74,21 @@ import {
   Paintbrush,
   BrainCircuit
 } from "lucide-react";
+
+// Create a simple Auth Context for dashboards
+const AuthContext = createContext();
+
+const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    // Return mock auth data when context is not available
+    return {
+      user: { name: "John Doe", email: "john@example.com" },
+      userType: "client"
+    };
+  }
+  return context;
+};
 
 // Enhanced Client Dashboard with Full Functionality
 const ClientDashboard = () => {
