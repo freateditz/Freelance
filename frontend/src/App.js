@@ -1013,8 +1013,8 @@ const SignupPage = () => {
         userType: formData.userType
       };
       login(userData, formData.userType);
-      navigate('/dashboard');
-      setIsLoading(false);
+      setIsLoading(false); // Clear loading state first
+      navigate('/dashboard'); // Then navigate
     }, 1500);
   };
 
