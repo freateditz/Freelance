@@ -1014,8 +1014,8 @@ const SignupPage = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Immediate signup without setTimeout
       const userData = {
         id: 1,
         name: `${formData.firstName} ${formData.lastName}`,
@@ -1025,7 +1025,10 @@ const SignupPage = () => {
       login(userData, formData.userType);
       setIsLoading(false); // Clear loading state first
       navigate('/dashboard'); // Then navigate
-    }, 1500);
+    } catch (error) {
+      console.error("Error in handleSignup:", error);
+      setIsLoading(false);
+    }
   };
 
   const nextStep = () => setStep(step + 1);
