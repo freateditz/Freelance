@@ -82,8 +82,7 @@ import {
   Smartphone,
   Layout,
   Paintbrush,
-  BrainCircuit,
-  CheckCircle
+  BrainCircuit
 } from "lucide-react";
 
 // Create Auth Context
