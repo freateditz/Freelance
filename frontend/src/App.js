@@ -353,7 +353,7 @@ const Navigation = () => {
   );
 };
 
-// Enhanced Home Page Component with Glassmorphism and Classic Design
+// Enhanced Home Page Component
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -546,7 +546,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Enhanced Featured Services */}
+      {/* Featured Services Section */}
       <section className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-16">
@@ -612,38 +612,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-20 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-slate-900 mb-6">How FreelanceHub Works</h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Get your project done in three simple steps
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-12">
-            {howItWorks.map((step, index) => {
-              const IconComponent = step.icon;
-              return (
-                <div key={index} className="text-center relative">
-                  {index < howItWorks.length - 1 && (
-                    <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-emerald-200 to-teal-200 transform translate-x-1/2"></div>
-                  )}
-                  <div className="relative inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full mb-6 text-white text-2xl font-bold shadow-2xl">
-                    {step.step}
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full animate-pulse opacity-75"></div>
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-4">{step.title}</h3>
-                  <p className="text-slate-600 text-lg">{step.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced Testimonials Section */}
+      {/* Testimonials Section */}
       <section className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -1543,4 +1512,108 @@ const SignupPage = () => {
   );
 };
 
-// Continue with other components in part 2 due to length limit...
+// Placeholder components for other pages - properly closed and structured
+const ServiceDetailPage = () => {
+  const { id } = useParams();
+  const service = mockServices.find(s => s.id === parseInt(id));
+  
+  if (!service) return (
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">Service Not Found</h1>
+        <Link to="/services">
+          <Button>Back to Services</Button>
+        </Link>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navigation />
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">{service.title}</h1>
+        <p className="text-xl text-slate-600">{service.description}</p>
+      </div>
+    </div>
+  );
+};
+
+const FreelancerProfilePage = () => {
+  const { id } = useParams();
+  const freelancer = mockFreelancers.find(f => f.id === parseInt(id));
+  
+  if (!freelancer) return (
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">Freelancer Not Found</h1>
+        <Link to="/browse">
+          <Button>Back to Browse</Button>
+        </Link>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Navigation />
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">{freelancer.name}</h1>
+        <p className="text-xl text-slate-600">{freelancer.title}</p>
+      </div>
+    </div>
+  );
+};
+
+const HowItWorksPage = () => (
+  <div className="min-h-screen bg-slate-50">
+    <Navigation />
+    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+      <h1 className="text-4xl font-bold text-slate-900 mb-4">How It Works</h1>
+      <p className="text-xl text-slate-600">Learn how to get the most out of FreelanceHub</p>
+    </div>
+  </div>
+);
+
+const AboutPage = () => (
+  <div className="min-h-screen bg-slate-50">
+    <Navigation />
+    <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+      <h1 className="text-4xl font-bold text-slate-900 mb-4">About FreelanceHub</h1>
+      <p className="text-xl text-slate-600">The world's leading freelance marketplace</p>
+    </div>
+  </div>
+);
+
+// Main App Component will be split into separate files for dashboard components
+const App = () => {
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/browse" element={<div>Browse Page - Implementation needed</div>} />
+          <Route path="/services" element={<div>Services Page - Implementation needed</div>} />
+          <Route path="/service/:id" element={<ServiceDetailPage />} />
+          <Route path="/freelancer/:id" element={<FreelancerProfilePage />} />
+          <Route path="/post-job" element={<div>Post Job Page - Implementation needed</div>} />
+          <Route path="/messages" element={<div>Messages Page - Implementation needed</div>} />
+          <Route path="/how-it-works" element={<HowItWorksPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/dashboard" element={<div>Dashboard - Implementation needed</div>} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
+
+// Export App wrapped with AuthProvider
+export default function AppWithAuth() {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+}
