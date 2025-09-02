@@ -2,6 +2,12 @@ import React, { useState, createContext, useContext } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link, useParams } from "react-router-dom";
 
+// Import dashboard components from AppPart2
+import { ClientDashboard, FreelancerDashboard } from "./AppPart2";
+
+// Import page components from AppPart3
+import { PostJobPage, MessagesPage, BrowseFreelancersPage, ServicesPage } from "./AppPart3";
+
 // Import components
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
