@@ -773,44 +773,26 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login form submitted"); // Debug log
+    console.log("Login form submitted - attempting immediate login"); // Debug log
     setIsLoading(true);
     
     try {
-      // Simulate API call
-      setTimeout(() => {
-        try {
-          console.log("Login timeout callback executing"); // Debug log
-          const userData = {
-            id: 1,
-            name: formData.userType === "freelancer" ? "John Freelancer" : "Jane Client",
-            email: formData.email,
-            userType: formData.userType
-          };
-          console.log("About to call login with:", userData, formData.userType); // Debug log
-          
-          if (typeof login === 'function') {
-            login(userData, formData.userType);
-            console.log("Login called successfully"); // Debug log
-          } else {
-            console.error("Login function is not available:", typeof login);
-          }
-          
-          console.log("About to clear loading"); // Debug log
-          setIsLoading(false); // Clear loading state first
-          
-          console.log("About to navigate to dashboard"); // Debug log
-          if (typeof navigate === 'function') {
-            navigate('/dashboard'); // Then navigate
-            console.log("Navigation called successfully"); // Debug log
-          } else {
-            console.error("Navigate function is not available:", typeof navigate);
-          }
-        } catch (timeoutError) {
-          console.error("Error in setTimeout callback:", timeoutError);
-          setIsLoading(false);
-        }
-      }, 1000);
+      // Test immediate login without setTimeout first
+      const userData = {
+        id: 1,
+        name: formData.userType === "freelancer" ? "John Freelancer" : "Jane Client",
+        email: formData.email,
+        userType: formData.userType
+      };
+      
+      console.log("Calling login function...");
+      login(userData, formData.userType);
+      console.log("Login function called, clearing loading state...");
+      setIsLoading(false);
+      console.log("Navigating to dashboard...");
+      navigate('/dashboard');
+      console.log("Navigation complete");
+      
     } catch (error) {
       console.error("Error in handleLogin:", error);
       setIsLoading(false);
