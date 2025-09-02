@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./components/ui/card";
@@ -74,6 +75,168 @@ import {
   Paintbrush,
   BrainCircuit
 } from "lucide-react";
+
+// Mock data for the pages
+const mockFreelancers = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    title: "Full Stack Developer",
+    rating: 4.9,
+    reviews: 127,
+    hourlyRate: 45,
+    completedProjects: 89,
+    skills: ["React", "Node.js", "Python", "MongoDB", "AWS"],
+    profileImage: "https://images.unsplash.com/photo-1635768229592-8c2532d33cb7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwyfHxwcm9mZXNzaW9uYWwlMjB3b3Jrc3BhY2V8ZW58MHx8fHwxNzU2NzQxODcwfDA&ixlib=rb-4.1.0&q=85",
+    description: "Experienced full-stack developer with 5+ years in building scalable web applications. Specialized in modern React applications and cloud deployment.",
+    location: "San Francisco, CA",
+    responseTime: "1 hour",
+    languages: ["English", "Spanish"],
+    availability: "Available",
+    portfolio: [
+      { title: "E-commerce Platform", image: "https://images.unsplash.com/photo-1657697071046-1eef624e96e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxmcmVlbGFuY2VyJTIwd29ya3NwYWNlfGVufDB8fHx8MTc1Njc0MTg2NXww&ixlib=rb-4.1.0&q=85" },
+      { title: "Task Management App", image: "https://images.unsplash.com/photo-1657697070834-30536672247d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHw0fHxmcmVlbGFuY2VyJTIwd29ya3NwYWNlfGVufDB8fHx8MTc1Njc0MTg2NXww&ixlib=rb-4.1.0&q=85" }
+    ]
+  },
+  {
+    id: 2,
+    name: "Michael Chen",
+    title: "UI/UX Designer & Brand Strategist",
+    rating: 4.8,
+    reviews: 93,
+    hourlyRate: 40,
+    completedProjects: 76,
+    skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "Brand Design"],
+    profileImage: "https://images.unsplash.com/photo-1755352425808-b8223a330f15?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwxfHxmcmVlbGFuY2VyJTIwd29ya3NwYWNlfGVufDB8fHx8MTc1Njc0MTg2NXww&ixlib=rb-4.1.0&q=85",
+    description: "Creative designer focused on user-centered design and modern interfaces. I help businesses create memorable brand experiences.",
+    location: "New York, NY",
+    responseTime: "2 hours",
+    languages: ["English", "Mandarin"],
+    availability: "Available",
+    portfolio: [
+      { title: "Mobile App Design", image: "https://images.unsplash.com/photo-1753162657289-6569cd1da479?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3NTY3NDI3OTF8MA&ixlib=rb-4.1.0&q=85" },
+      { title: "Brand Identity System", image: "https://images.unsplash.com/photo-1670851810697-68ddb4ecae1c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHw0fHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3NTY3NDI3OTF8MA&ixlib=rb-4.1.0&q=85" }
+    ]
+  },
+  {
+    id: 3,
+    name: "Emily Rodriguez",
+    title: "Content Marketing Specialist",
+    rating: 4.9,
+    reviews: 156,
+    hourlyRate: 35,
+    completedProjects: 134,
+    skills: ["Content Writing", "SEO", "Social Media", "Email Marketing", "Analytics"],
+    profileImage: "https://images.unsplash.com/photo-1739287088635-444554e7ac0e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHw0fHxwcm9mZXNzaW9uYWwlMjB3b3Jrc3BhY2V8ZW58MHx8fHwxNzU2NzQxODcwfDA&ixlib=rb-4.1.0&q=85",
+    description: "Professional content writer and marketing strategist specializing in tech, lifestyle, and business content that converts.",
+    location: "Austin, TX",
+    responseTime: "30 minutes",
+    languages: ["English", "Spanish", "Portuguese"],
+    availability: "Available",
+    portfolio: [
+      { title: "Tech Blog Content", image: "https://images.unsplash.com/photo-1590650467980-8eadfa86ff48?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwzfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3NTY3NDI3OTF8MA&ixlib=rb-4.1.0&q=85" },
+      { title: "Social Media Campaign", image: "https://images.unsplash.com/photo-1568992687947-868a62a9f521?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMHRlYW18ZW58MHx8fHwxNzU2NzQyNzk5fDA&ixlib=rb-4.1.0&q=85" }
+    ]
+  },
+  {
+    id: 4,
+    name: "David Kim",
+    title: "Digital Marketing Consultant",
+    rating: 4.7,
+    reviews: 82,
+    hourlyRate: 50,
+    completedProjects: 67,
+    skills: ["Google Ads", "Facebook Ads", "SEO", "Analytics", "Conversion Optimization"],
+    profileImage: "https://images.pexels.com/photos/8472496/pexels-photo-8472496.jpeg",
+    description: "Data-driven digital marketer with expertise in paid advertising and growth strategies. I help businesses scale profitably.",
+    location: "Los Angeles, CA",
+    responseTime: "1 hour",
+    languages: ["English", "Korean"],
+    availability: "Available",
+    portfolio: [
+      { title: "PPC Campaign Results", image: "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHRlYW18ZW58MHx8fHwxNzU2NzQyNzk5fDA&ixlib=rb-4.1.0&q=85" },
+      { title: "Analytics Dashboard", image: "https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHw0fHxidXNpbmVzcyUyMHRlYW18ZW58MHx8fHwxNzU2NzQyNzk5fDA&ixlib=rb-4.1.0&q=85" }
+    ]
+  }
+];
+
+const mockServices = [
+  {
+    id: 1,
+    title: "I will develop a full-stack web application with modern technologies",
+    freelancer: "Sarah Johnson",
+    freelancerId: 1,
+    price: 500,
+    rating: 4.9,
+    reviews: 42,
+    image: "https://images.unsplash.com/photo-1657697071046-1eef624e96e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxmcmVlbGFuY2VyJTIwd29ya3NwYWNlfGVufDB8fHx8MTc1Njc0MTg2NXww&ixlib=rb-4.1.0&q=85",
+    deliveryTime: "7 days",
+    category: "Development",
+    tags: ["React", "Node.js", "Full Stack"],
+    description: "Professional full-stack web application development using modern technologies like React, Node.js, and cloud deployment."
+  },
+  {
+    id: 2,
+    title: "I will design modern UI/UX for your mobile app or website",
+    freelancer: "Michael Chen",
+    freelancerId: 2,
+    price: 350,
+    rating: 4.8,
+    reviews: 38,
+    image: "https://images.unsplash.com/photo-1753162657289-6569cd1da479?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3NTY3NDI3OTF8MA&ixlib=rb-4.1.0&q=85",
+    deliveryTime: "5 days",
+    category: "Design",
+    tags: ["UI/UX", "Mobile Design", "Figma"],
+    description: "Create stunning, user-friendly interfaces for your mobile app or website with modern design principles."
+  },
+  {
+    id: 3,
+    title: "I will write engaging content and SEO blog posts for your business",
+    freelancer: "Emily Rodriguez",
+    freelancerId: 3,
+    price: 150,
+    rating: 4.9,
+    reviews: 89,
+    image: "https://images.unsplash.com/photo-1590650467980-8eadfa86ff48?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwzfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3NTY3NDI3OTF8MA&ixlib=rb-4.1.0&q=85",
+    deliveryTime: "3 days",
+    category: "Writing",
+    tags: ["Content Writing", "SEO", "Blog Posts"],
+    description: "High-quality, SEO-optimized content that engages your audience and drives organic traffic to your website."
+  },
+  {
+    id: 4,
+    title: "I will create and manage your Google Ads campaigns for maximum ROI",
+    freelancer: "David Kim",
+    freelancerId: 4,
+    price: 400,
+    rating: 4.7,
+    reviews: 34,
+    image: "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHRlYW18ZW58MHx8fHwxNzU2NzQyNzk5fDA&ixlib=rb-4.1.0&q=85",
+    deliveryTime: "5 days",
+    category: "Marketing",
+    tags: ["Google Ads", "PPC", "Marketing"],
+    description: "Professional Google Ads campaign setup and management to drive qualified traffic and maximize your advertising ROI."
+  }
+];
+
+// Simple Navigation Component 
+const Navigation = () => (
+  <nav className="bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-lg shadow-emerald-500/5">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex justify-between items-center h-16">
+        <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+          FreelanceHub
+        </Link>
+        <div className="flex space-x-8">
+          <Link to="/browse" className="text-slate-800 hover:text-emerald-600 font-medium transition-colors">Browse</Link>
+          <Link to="/services" className="text-slate-800 hover:text-emerald-600 font-medium transition-colors">Services</Link>
+          <Link to="/post-job" className="text-slate-800 hover:text-emerald-600 font-medium transition-colors">Post Job</Link>
+          <Link to="/messages" className="text-slate-800 hover:text-emerald-600 font-medium transition-colors">Messages</Link>
+        </div>
+      </div>
+    </div>
+  </nav>
+);
 
 // Complete Post Job Page
 const PostJobPage = () => {
