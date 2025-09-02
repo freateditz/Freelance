@@ -776,23 +776,45 @@ const LoginPage = () => {
     console.log("Login form submitted"); // Debug log
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Login timeout callback executing"); // Debug log
-      const userData = {
-        id: 1,
-        name: formData.userType === "freelancer" ? "John Freelancer" : "Jane Client",
-        email: formData.email,
-        userType: formData.userType
-      };
-      console.log("About to call login with:", userData, formData.userType); // Debug log
-      login(userData, formData.userType);
-      console.log("Login called, about to clear loading"); // Debug log
-      setIsLoading(false); // Clear loading state first
-      console.log("About to navigate to dashboard"); // Debug log
-      navigate('/dashboard'); // Then navigate
-      console.log("Navigation called"); // Debug log
-    }, 1000);
+    try {
+      // Simulate API call
+      setTimeout(() => {
+        try {
+          console.log("Login timeout callback executing"); // Debug log
+          const userData = {
+            id: 1,
+            name: formData.userType === "freelancer" ? "John Freelancer" : "Jane Client",
+            email: formData.email,
+            userType: formData.userType
+          };
+          console.log("About to call login with:", userData, formData.userType); // Debug log
+          
+          if (typeof login === 'function') {
+            login(userData, formData.userType);
+            console.log("Login called successfully"); // Debug log
+          } else {
+            console.error("Login function is not available:", typeof login);
+          }
+          
+          console.log("About to clear loading"); // Debug log
+          setIsLoading(false); // Clear loading state first
+          
+          console.log("About to navigate to dashboard"); // Debug log
+          if (typeof navigate === 'function') {
+            navigate('/dashboard'); // Then navigate
+            console.log("Navigation called successfully"); // Debug log
+          } else {
+            console.error("Navigate function is not available:", typeof navigate);
+          }
+        } catch (timeoutError) {
+          console.error("Error in setTimeout callback:", timeoutError);
+          setIsLoading(false);
+        }
+      }, 1000);
+    } catch (error) {
+      console.error("Error in handleLogin:", error);
+      setIsLoading(false);
+    }
   };
 
   return (
