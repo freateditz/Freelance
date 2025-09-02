@@ -1613,15 +1613,15 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/browse" element={<div>Browse Page - Implementation needed</div>} />
-          <Route path="/services" element={<div>Services Page - Implementation needed</div>} />
+          <Route path="/browse" element={<BrowseFreelancersPage />} />
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/service/:id" element={<ServiceDetailPage />} />
           <Route path="/freelancer/:id" element={<FreelancerProfilePage />} />
-          <Route path="/post-job" element={<div>Post Job Page - Implementation needed</div>} />
-          <Route path="/messages" element={<div>Messages Page - Implementation needed</div>} />
+          <Route path="/post-job" element={<PostJobPage />} />
+          <Route path="/messages" element={<MessagesPage />} />
           <Route path="/how-it-works" element={<HowItWorksPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/dashboard" element={<div>Dashboard - Implementation needed</div>} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
       </BrowserRouter>
     </div>
